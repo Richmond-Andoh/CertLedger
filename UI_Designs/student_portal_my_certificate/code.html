@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Portal - My Certificate</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-on-surface": "#eff1f4",
+              "surface": "#f7f9fc",
+              "surface-bright": "#f7f9fc",
+              "tertiary-fixed-dim": "#e0c1a0",
+              "tertiary-fixed": "#feddba",
+              "on-error-container": "#93000a",
+              "outline-variant": "#c4c6cc",
+              "background": "#f7f9fc",
+              "surface-tint": "#525f71",
+              "on-tertiary-fixed": "#281804",
+              "on-surface": "#191c1e",
+              "on-error": "#ffffff",
+              "primary-container": "#0f1c2c",
+              "on-primary-container": "#778598",
+              "secondary": "#755b00",
+              "error": "#ba1a1a",
+              "on-primary-fixed-variant": "#3a4859",
+              "on-secondary-fixed": "#241a00",
+              "surface-dim": "#d8dadd",
+              "on-tertiary-container": "#9a7f61",
+              "on-secondary-fixed-variant": "#584400",
+              "secondary-fixed-dim": "#e6c364",
+              "on-surface-variant": "#44474c",
+              "on-tertiary-fixed-variant": "#584329",
+              "secondary-container": "#fed977",
+              "inverse-primary": "#bac8dc",
+              "surface-container": "#eceef1",
+              "surface-container-low": "#f2f4f7",
+              "on-secondary-container": "#785d00",
+              "primary": "#000000",
+              "inverse-surface": "#2d3133",
+              "on-primary-fixed": "#0f1c2c",
+              "secondary-fixed": "#ffe08f",
+              "tertiary-container": "#281804",
+              "primary-fixed": "#d6e4f9",
+              "error-container": "#ffdad6",
+              "surface-container-high": "#e6e8eb",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed-dim": "#bac8dc",
+              "on-secondary": "#ffffff",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e6",
+              "surface-variant": "#e0e3e6",
+              "outline": "#74777d",
+              "on-tertiary": "#ffffff",
+              "on-background": "#191c1e",
+              "tertiary": "#000000"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-effect {
+        background: rgba(224, 227, 230, 0.7);
+        backdrop-filter: blur(20px);
+      }
+      .verified-pulse {
+        box-shadow: 0 0 0 0 rgba(88, 67, 41, 0.4);
+        /* Animation omitted as per instructions, but placeholder for styling logic */
+      }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full flex justify-between items-center px-8 h-20 bg-slate-900 z-50 shadow-xl shadow-slate-900/20">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-white uppercase font-headline">CERTIFICATE VERIFICATION SYSTEM</span>
+<nav class="hidden md:flex gap-6">
+<span class="text-slate-300 hover:text-white transition-colors text-sm font-medium Inter cursor-pointer">University Portal</span>
+<span class="text-amber-400 border-b-2 border-amber-400 pb-1 text-sm font-medium Inter cursor-pointer">Student Portal</span>
+<span class="text-slate-300 hover:text-white transition-colors text-sm font-medium Inter cursor-pointer">Admin</span>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3 pr-4 border-r border-slate-700">
+<span class="text-white font-semibold text-sm">Kofi Annan</span>
+<span class="material-symbols-outlined text-amber-500" data-icon="account_circle">account_circle</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-300 hover:bg-slate-800 p-2 rounded-lg transition-all cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-slate-300 hover:bg-slate-800 p-2 rounded-lg transition-all cursor-pointer" data-icon="logout">logout</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-32 pb-20 px-8 max-w-7xl mx-auto w-full">
+<!-- Header Section -->
+<div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="max-w-2xl">
+<h1 class="text-4xl md:text-5xl font-bold font-headline text-primary-container tracking-tight mb-4">My Certificate</h1>
+<p class="text-on-surface-variant text-lg max-w-xl">
+                    View and verify your official academic credentials. This digital record is anchored to the institutional blockchain for permanent veracity.
+                </p>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-surface-container-lowest text-primary-container px-6 py-3 rounded-xl shadow-sm border border-outline-variant/20 font-semibold flex items-center gap-2 hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                    Download PDF
+                </button>
+<button class="bg-secondary text-on-secondary px-6 py-3 rounded-xl shadow-md font-semibold flex items-center gap-2 scale-100 hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+                    Share Record
+                </button>
+</div>
+</div>
+<!-- Certificate Content -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- The Digital Ledger Card (The Certificate) -->
+<div class="lg:col-span-8">
+<div class="bg-surface-container-lowest rounded-xl p-12 shadow-2xl shadow-black/5 relative overflow-hidden border-t-8 border-secondary">
+<!-- Subtle Decorative University Pattern -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none select-none">
+<img class="w-full h-full object-cover" data-alt="faint repeating geometric pattern of academic crests and lattice shapes in light grey" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbfmx0J3R6ABZsay0xXhJtARcMQ1VQOSUmFgtll9KyuVgjg-VJuN-wwIFPoqqVKbvGkmPyfCNiadTQwg8Q7aTWHesEO45WIeWd33YuZWumTOiXRYJiBKk0XLF0Poxv1L5_ZFQa5kYtC664Joj9h7a1F4BSgmcRj0ECLTF-jXOZpsleLYCQeyppyc-i8P_KRvqRXXKP5Fh_8-xP3eEeSYuSFjHneCsR8DSpKqjsW5mZmEkGXUT6YVbTIHP8qr6wriI9kywL7yWjEH9h"/>
+</div>
+<div class="relative z-10 flex flex-col items-center text-center">
+<!-- University Seal -->
+<div class="w-32 h-32 mb-8 bg-surface-container rounded-full flex items-center justify-center p-4">
+<img class="w-full h-full object-contain" data-alt="prestigious university crest with traditional symbols of knowledge, an open book, and a burning torch in gold and navy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALaWcGMOPBfN5XdodkKSHeExjsR0u8FK2dtLk_XdldVU9Hxk25t2Ch6ZovRg5XKd9YCPMdC0zLQyxLTwHelnKavzXICErtGYFE9lR6wPvS72h9nlq5OfOHkE6rHTW5jMz29aTLOcruigZc3LSAQxk-pbByjrkwsCQsWUOAH157JK_XKVP7nlzdg0fL92u8HRyKckQqM5fmYmFPte6K6tWrhSrOsCzYRNAT8AOHcBLuc_I-bHTpp0QLBP2w-_y-S1jLNIoX3xgZeIip"/>
+</div>
+<div class="mb-12">
+<h2 class="font-headline text-sm font-extrabold uppercase tracking-[0.2em] text-on-surface-variant mb-2">Official Academic Record</h2>
+<p class="font-body text-on-surface-variant italic">This is to certify that</p>
+</div>
+<div class="mb-12">
+<h3 class="text-5xl font-bold font-headline text-primary-container tracking-tighter">Kofi Annan</h3>
+<div class="h-1 w-24 bg-secondary mx-auto mt-4 rounded-full"></div>
+</div>
+<div class="mb-12 space-y-2">
+<p class="text-on-surface-variant">Having fulfilled all university requirements and passed the prescribed examinations was duly admitted to the degree of</p>
+<h4 class="text-2xl font-bold font-headline text-primary-container">Bachelor of Science in Computer Science</h4>
+</div>
+<!-- Data Grid -->
+<div class="w-full max-w-2xl grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-x-6 text-left py-10 border-y border-outline-variant/20 mb-12">
+<div>
+<span class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">Student ID</span>
+<span class="font-semibold text-primary-container">UG-88291-20</span>
+</div>
+<div>
+<span class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">Institution</span>
+<span class="font-semibold text-primary-container">University of Ghana</span>
+</div>
+<div>
+<span class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">Grade / Class</span>
+<span class="font-semibold text-primary-container">First Class Honors</span>
+</div>
+<div>
+<span class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">Issue Date</span>
+<span class="font-semibold text-primary-container">July 15, 2024</span>
+</div>
+<div class="col-span-2">
+<span class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">Blockchain Hash</span>
+<span class="font-mono text-xs text-on-surface-variant break-all">0x8a2f...91c3b7e42d9f81a0e63c</span>
+</div>
+</div>
+<!-- Verification Badge -->
+<div class="inline-flex items-center gap-3 bg-on-tertiary-fixed-variant/10 text-on-tertiary-fixed-variant px-6 py-3 rounded-full font-bold text-sm uppercase tracking-widest">
+<span class="material-symbols-outlined text-xl" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+                            Verified on Blockchain
+                        </div>
+</div>
+</div>
+</div>
+<!-- Sidebar Info / Metadata -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<div class="bg-primary-container p-8 rounded-xl text-white">
+<h5 class="font-headline text-lg font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="security">security</span>
+                        Security Protocol
+                    </h5>
+<p class="text-on-primary-container text-sm leading-relaxed mb-6">
+                        This record was issued by your university and is recorded permanently on the blockchain. The cryptographic signature ensures that the data is immutable and tamper-proof.
+                    </p>
+<div class="bg-white/5 p-4 rounded-lg border border-white/10 flex flex-col gap-3">
+<div class="flex items-center justify-between text-xs">
+<span class="text-on-primary-container">Validation Status</span>
+<span class="text-amber-400 font-bold uppercase">Active</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-on-primary-container">Node Confirmation</span>
+<span class="text-amber-400 font-bold uppercase">Success (12)</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-8 rounded-xl">
+<h5 class="font-headline text-lg font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="help_outline">help_outline</span>
+                        Support
+                    </h5>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                        If any detail on this certificate is incorrect or missing, please contact the University Registrar’s office directly.
+                    </p>
+<button class="mt-6 w-full py-3 border border-outline-variant/40 rounded-lg text-sm font-semibold hover:bg-surface-container-high transition-colors">
+                        Contact University
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-6 mt-auto border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
+<div class="flex flex-col items-center justify-center gap-4 w-full px-8">
+<p class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500">
+                © 2024 Academic Ledger Technologies. Ghanaian Institutional Integrity Protocol.
+            </p>
+<div class="flex gap-6">
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Privacy Policy</a>
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Blockchain Transparency Report</a>
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+</body></html>

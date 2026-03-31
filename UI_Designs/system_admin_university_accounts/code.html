@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>University Accounts | System Admin</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-on-surface": "#eff1f4",
+              "surface": "#f7f9fc",
+              "surface-bright": "#f7f9fc",
+              "tertiary-fixed-dim": "#e0c1a0",
+              "tertiary-fixed": "#feddba",
+              "on-error-container": "#93000a",
+              "outline-variant": "#c4c6cc",
+              "background": "#f7f9fc",
+              "surface-tint": "#525f71",
+              "on-tertiary-fixed": "#281804",
+              "on-surface": "#191c1e",
+              "on-error": "#ffffff",
+              "primary-container": "#0f1c2c",
+              "on-primary-container": "#778598",
+              "secondary": "#755b00",
+              "error": "#ba1a1a",
+              "on-primary-fixed-variant": "#3a4859",
+              "on-secondary-fixed": "#241a00",
+              "surface-dim": "#d8dadd",
+              "on-tertiary-container": "#9a7f61",
+              "on-secondary-fixed-variant": "#584400",
+              "secondary-fixed-dim": "#e6c364",
+              "on-surface-variant": "#44474c",
+              "on-tertiary-fixed-variant": "#584329",
+              "secondary-container": "#fed977",
+              "inverse-primary": "#bac8dc",
+              "surface-container": "#eceef1",
+              "surface-container-low": "#f2f4f7",
+              "on-secondary-container": "#785d00",
+              "primary": "#000000",
+              "inverse-surface": "#2d3133",
+              "on-primary-fixed": "#0f1c2c",
+              "secondary-fixed": "#ffe08f",
+              "tertiary-container": "#281804",
+              "primary-fixed": "#d6e4f9",
+              "error-container": "#ffdad6",
+              "surface-container-high": "#e6e8eb",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed-dim": "#bac8dc",
+              "on-secondary": "#ffffff",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e6",
+              "surface-variant": "#e0e3e6",
+              "outline": "#74777d",
+              "on-tertiary": "#ffffff",
+              "on-background": "#191c1e",
+              "tertiary": "#000000"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.5rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc;
+        }
+        h1, h2, h3 {
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full flex justify-between items-center px-8 h-20 bg-slate-900 dark:bg-black z-50 shadow-xl shadow-slate-900/20">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold tracking-tighter text-white uppercase">Certificate Verification System</span>
+<span class="ml-4 px-3 py-1 bg-slate-800 text-amber-500 text-xs font-bold tracking-widest uppercase rounded">Admin</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex gap-6">
+<a class="text-slate-300 hover:text-white transition-colors text-sm font-medium" href="#">University Portal</a>
+<a class="text-slate-300 hover:text-white transition-colors text-sm font-medium" href="#">Student Portal</a>
+<a class="text-amber-400 border-b-2 border-amber-400 pb-1 text-sm font-medium" href="#">Admin</a>
+</nav>
+<div class="flex items-center gap-4 ml-6 pl-6 border-l border-slate-700">
+<button class="text-slate-300 hover:bg-slate-800 transition-all p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-300 hover:bg-slate-800 transition-all p-2 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+<button class="text-slate-300 hover:bg-slate-800 transition-all p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex pt-20">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-72 bg-slate-900 dark:bg-slate-950 flex flex-col pt-24 pb-8 overflow-y-auto z-40 shadow-2xl shadow-black/50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-lg bg-amber-500 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="University seal with crest and shield in gold and white professional academic style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9xSJQF2t-Mqf9xLVoKJvZHyI7BD9wW5vlJEdLMlsi43y3IP0uuhK2apCUHHvI695sl1XoiQ6TPkj228V-ylRorLL4t7BCZwEtM2xCMX0gC8zgndfrOpreZlRp6DuXFxluDubpPUXZkwp0QPb-IPs3ifn9ca6HSEryEsLYqEnQt3W7wIEoggJrsxk8ZbO2-TQpdVg6bgo5krPKMQ7Wo7NAaimYerRQDbtqr5u3iY90Y-DrTSRtWKJi8pBruxWJu1iLxLnxRbxT434X"/>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white tracking-tight leading-none">Institutional Ledger</h3>
+<p class="text-[10px] text-slate-400 font-semibold uppercase tracking-widest mt-1">Academic Authority</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-slate-400 flex items-center gap-4 px-6 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-xs font-semibold uppercase tracking-widest">Dashboard</span>
+</a>
+<a class="text-amber-500 bg-slate-800/50 border-r-4 border-amber-500 flex items-center gap-4 px-6 py-4 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span class="text-xs font-semibold uppercase tracking-widest">University Accounts</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 px-6 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span class="text-xs font-semibold uppercase tracking-widest">Issuance History</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 px-6 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span class="text-xs font-semibold uppercase tracking-widest">Anomaly Alerts</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 px-6 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span class="text-xs font-semibold uppercase tracking-widest">Audit Log</span>
+</a>
+</nav>
+<div class="mt-auto px-6 pt-6 border-t border-slate-800">
+<a class="text-slate-400 flex items-center gap-4 py-3 hover:text-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-xs font-semibold uppercase tracking-widest">Settings</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 py-3 hover:text-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="text-xs font-semibold uppercase tracking-widest">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-72 flex-1 p-12 min-h-screen">
+<div class="max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-12">
+<div>
+<span class="text-secondary font-bold text-sm tracking-widest uppercase mb-2 block">System Administration</span>
+<h1 class="text-4xl font-extrabold text-on-surface tracking-tight">University Accounts</h1>
+</div>
+<button class="bg-secondary text-on-secondary px-6 py-3 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-secondary/20">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                        Add University
+                    </button>
+</div>
+<!-- Stats Overview (Asymmetric Pattern) -->
+<div class="grid grid-cols-12 gap-6 mb-12">
+<div class="col-span-8 bg-surface-container-lowest rounded-xl p-8 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-on-surface-variant text-sm font-medium mb-1">Total Registered Institutions</p>
+<h2 class="text-5xl font-bold text-primary tracking-tighter">42</h2>
+</div>
+<div class="h-16 w-px bg-surface-container-high mx-8"></div>
+<div>
+<p class="text-on-surface-variant text-sm font-medium mb-1">Active Protocols</p>
+<h2 class="text-5xl font-bold text-primary tracking-tighter">38</h2>
+</div>
+<div class="h-16 w-px bg-surface-container-high mx-8"></div>
+<div class="flex flex-col items-end">
+<span class="text-on-tertiary-fixed-variant bg-surface-container-highest px-3 py-1 rounded-full text-xs font-bold mb-2">91% Uptime</span>
+<div class="flex gap-1">
+<div class="w-1 h-4 bg-secondary rounded-full"></div>
+<div class="w-1 h-6 bg-secondary rounded-full"></div>
+<div class="w-1 h-4 bg-secondary rounded-full"></div>
+<div class="w-1 h-8 bg-secondary rounded-full"></div>
+<div class="w-1 h-5 bg-secondary rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="col-span-4 bg-primary-container rounded-xl p-8 shadow-xl flex flex-col justify-center">
+<p class="text-on-primary-container text-xs font-bold uppercase tracking-widest mb-4">Security Status</p>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-amber-500 animate-pulse"></div>
+<span class="text-white text-xl font-bold">Ledger Synchronized</span>
+</div>
+<p class="text-on-primary-container text-xs mt-2 font-medium">All 14 nodes reporting healthy consensus.</p>
+</div>
+</div>
+<!-- Main Table Section -->
+<div class="bg-surface-container-lowest rounded-lg shadow-sm overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 border-b border-surface-container-high">
+<th class="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">University Name</th>
+<th class="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Admin Username</th>
+<th class="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Date Created</th>
+<th class="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Status</th>
+<th class="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<!-- Row 1 (White) -->
+<tr class="bg-surface-container-lowest hover:bg-slate-50/50 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold text-xs">UG</div>
+<span class="text-sm font-semibold text-primary">University of Ghana</span>
+</div>
+</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant font-medium">admin_legon_01</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-8 py-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-100">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        Active
+                                    </span>
+</td>
+<td class="px-8 py-6 text-right">
+<div class="flex justify-end gap-3">
+<button class="px-4 py-2 text-xs font-bold border border-primary-container text-primary-container rounded-lg hover:bg-primary-container hover:text-white transition-all">View</button>
+<button class="px-4 py-2 text-xs font-bold border border-primary-container text-primary-container rounded-lg hover:bg-error hover:border-error hover:text-white transition-all">Deactivate</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 (Light Blue Tint) -->
+<tr class="bg-primary-fixed/10 hover:bg-primary-fixed/20 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold text-xs">KN</div>
+<span class="text-sm font-semibold text-primary">KNUST Kumasi</span>
+</div>
+</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant font-medium">sys_admin_knust</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant">Nov 05, 2023</td>
+<td class="px-8 py-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-100">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        Active
+                                    </span>
+</td>
+<td class="px-8 py-6 text-right">
+<div class="flex justify-end gap-3">
+<button class="px-4 py-2 text-xs font-bold border border-primary-container text-primary-container rounded-lg hover:bg-primary-container hover:text-white transition-all">View</button>
+<button class="px-4 py-2 text-xs font-bold border border-primary-container text-primary-container rounded-lg hover:bg-error hover:border-error hover:text-white transition-all">Deactivate</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 (White) -->
+<tr class="bg-surface-container-lowest hover:bg-slate-50/50 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold text-xs">UC</div>
+<span class="text-sm font-semibold text-primary">University of Cape Coast</span>
+</div>
+</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant font-medium">ucc_registrar</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant">Jan 18, 2024</td>
+<td class="px-8 py-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-error-container text-on-error-container text-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                        Inactive
+                                    </span>
+</td>
+<td class="px-8 py-6 text-right">
+<div class="flex justify-end gap-3">
+<button class="px-4 py-2 text-xs font-bold border border-primary-container text-primary-container rounded-lg hover:bg-primary-container hover:text-white transition-all">View</button>
+<button class="px-4 py-2 text-xs font-bold border border-primary-container text-primary-container rounded-lg hover:bg-primary-container hover:text-white transition-all">Activate</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 (Light Blue Tint) -->
+<tr class="bg-primary-fixed/10 hover:bg-primary-fixed/20 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold text-xs">GT</div>
+<span class="text-sm font-semibold text-primary">GCTU Accra</span>
+</div>
+</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant font-medium">tech_lead_gt</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant">Mar 22, 2024</td>
+<td class="px-8 py-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-100">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        Active
+                                    </span>
+</td>
+<td class="px-8 py-6 text-right">
+<div class="flex justify-end gap-3">
+<button class="px-4 py-2 text-xs font-bold border border-primary-container text-primary-container rounded-lg hover:bg-primary-container hover:text-white transition-all">View</button>
+<button class="px-4 py-2 text-xs font-bold border border-primary-container text-primary-container rounded-lg hover:bg-error hover:border-error hover:text-white transition-all">Deactivate</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination (Semantic Shell) -->
+<div class="p-6 border-t border-surface-container-high flex justify-between items-center bg-white">
+<span class="text-xs text-on-surface-variant font-medium">Showing 4 of 42 universities</span>
+<div class="flex gap-2">
+<button class="p-2 rounded hover:bg-surface-container transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded bg-primary text-white text-xs font-bold">1</button>
+<button class="w-8 h-8 rounded hover:bg-surface-container text-xs font-bold">2</button>
+<button class="w-8 h-8 rounded hover:bg-surface-container text-xs font-bold">3</button>
+<button class="p-2 rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="w-full py-6 mt-auto bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 z-50">
+<div class="flex flex-col items-center justify-center gap-4 w-full px-8">
+<p class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500">
+                © 2024 Academic Ledger Technologies. Ghanaian Institutional Integrity Protocol.
+            </p>
+<div class="flex gap-6">
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Privacy Policy</a>
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Blockchain Transparency Report</a>
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+</body></html>

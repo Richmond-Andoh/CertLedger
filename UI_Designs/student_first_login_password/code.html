@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student First Login - Certificate Verification System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-on-surface": "#eff1f4",
+                        "surface": "#f7f9fc",
+                        "surface-bright": "#f7f9fc",
+                        "tertiary-fixed-dim": "#e0c1a0",
+                        "tertiary-fixed": "#feddba",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c4c6cc",
+                        "background": "#f7f9fc",
+                        "surface-tint": "#525f71",
+                        "on-tertiary-fixed": "#281804",
+                        "on-surface": "#191c1e",
+                        "on-error": "#ffffff",
+                        "primary-container": "#0f1c2c",
+                        "on-primary-container": "#778598",
+                        "secondary": "#755b00",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#3a4859",
+                        "on-secondary-fixed": "#241a00",
+                        "surface-dim": "#d8dadd",
+                        "on-tertiary-container": "#9a7f61",
+                        "on-secondary-fixed-variant": "#584400",
+                        "secondary-fixed-dim": "#e6c364",
+                        "on-surface-variant": "#44474c",
+                        "on-tertiary-fixed-variant": "#584329",
+                        "secondary-container": "#fed977",
+                        "inverse-primary": "#bac8dc",
+                        "surface-container": "#eceef1",
+                        "surface-container-low": "#f2f4f7",
+                        "on-secondary-container": "#785d00",
+                        "primary": "#000000",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-fixed": "#0f1c2c",
+                        "secondary-fixed": "#ffe08f",
+                        "tertiary-container": "#281804",
+                        "primary-fixed": "#d6e4f9",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e6e8eb",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#bac8dc",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e0e3e6",
+                        "surface-variant": "#e0e3e6",
+                        "outline": "#74777d",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#191c1e",
+                        "tertiary": "#000000"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.5rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-effect {
+            background: rgba(224, 227, 230, 0.7);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="font-body bg-primary-container min-h-screen flex items-center justify-center p-6 selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<main class="w-full max-w-xl">
+<div class="mb-12 text-center">
+<div class="inline-flex items-center justify-center p-4 rounded-xl bg-gradient-to-br from-primary to-primary-container shadow-2xl mb-6">
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="lock_reset">lock_reset</span>
+</div>
+<h1 class="font-headline text-3xl font-extrabold text-white tracking-tighter uppercase">Certificate Verification System</h1>
+</div>
+<div class="bg-surface-container-lowest rounded-lg shadow-2xl p-10 md:p-14 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1.5 bg-secondary"></div>
+<header class="mb-10">
+<h2 class="font-headline text-2xl font-bold text-on-primary-fixed mb-3">Welcome — Please Set Your Password</h2>
+<p class="text-on-surface-variant font-medium leading-relaxed">
+                    You are using a temporary password. Please set a new password to continue.
+                </p>
+</header>
+<form class="space-y-8">
+<div class="space-y-2">
+<label class="font-label text-xs font-semibold uppercase tracking-widest text-on-surface-variant" for="new_password">New Password</label>
+<div class="relative">
+<input class="w-full h-14 px-5 bg-surface-container-highest border-0 focus:ring-2 focus:ring-surface-tint rounded-lg text-on-surface font-medium transition-all" id="new_password" name="new_password" placeholder="Enter your new password" type="password"/>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-on-surface transition-colors" data-icon="visibility">visibility</span>
+</div>
+</div>
+<div class="pt-3">
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] font-bold uppercase tracking-tighter text-on-tertiary-fixed-variant">Password Strength</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-on-tertiary-fixed-variant">Strong</span>
+</div>
+<div class="flex gap-1 h-1.5">
+<div class="flex-1 bg-on-tertiary-fixed-variant rounded-full"></div>
+<div class="flex-1 bg-on-tertiary-fixed-variant rounded-full shadow-[0_0_8px_rgba(88,67,41,0.3)]"></div>
+<div class="flex-1 bg-on-tertiary-fixed-variant rounded-full"></div>
+<div class="flex-1 bg-surface-container-highest rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label text-xs font-semibold uppercase tracking-widest text-on-surface-variant" for="confirm_password">Confirm Password</label>
+<div class="relative">
+<input class="w-full h-14 px-5 bg-surface-container-highest border-0 focus:ring-2 focus:ring-surface-tint rounded-lg text-on-surface font-medium transition-all" id="confirm_password" name="confirm_password" placeholder="Repeat your password" type="password"/>
+<div class="absolute right-4 top-1/2 -translate-y-1/2">
+<span class="material-symbols-outlined text-outline" data-icon="lock">lock</span>
+</div>
+</div>
+</div>
+<div class="pt-4">
+<button class="w-full h-16 bg-secondary text-on-secondary font-headline text-sm font-bold uppercase tracking-widest rounded-lg shadow-lg shadow-secondary/20 hover:scale-[1.02] active:scale-95 transition-all duration-200 flex items-center justify-center gap-3" type="submit">
+                        Set Password and Continue
+                        <span class="material-symbols-outlined text-xl" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</form>
+<div class="mt-12 pt-8 border-t border-surface-container flex flex-col items-center gap-4">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-lg" data-icon="verified_user" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Ghanaian Institutional Integrity Protocol</span>
+</div>
+<p class="text-[10px] font-medium text-outline uppercase tracking-tighter">
+                    Encrypted End-to-End • Immutable Audit Trail
+                </p>
+</div>
+</div>
+<footer class="mt-12 text-center">
+<p class="text-[10px] font-medium text-on-primary-container uppercase tracking-widest">
+                © 2024 Academic Ledger Technologies. Institutional Security Layer 4.0
+            </p>
+</footer>
+</main>
+<div class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none opacity-20">
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-secondary rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-surface-tint rounded-full blur-[120px]"></div>
+</div>
+</body></html>

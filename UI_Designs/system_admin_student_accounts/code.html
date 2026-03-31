@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Accounts - Certificate Verification System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-on-surface": "#eff1f4",
+                        "surface": "#f7f9fc",
+                        "surface-bright": "#f7f9fc",
+                        "tertiary-fixed-dim": "#e0c1a0",
+                        "tertiary-fixed": "#feddba",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c4c6cc",
+                        "background": "#f7f9fc",
+                        "surface-tint": "#525f71",
+                        "on-tertiary-fixed": "#281804",
+                        "on-surface": "#191c1e",
+                        "on-error": "#ffffff",
+                        "primary-container": "#0f1c2c",
+                        "on-primary-container": "#778598",
+                        "secondary": "#755b00",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#3a4859",
+                        "on-secondary-fixed": "#241a00",
+                        "surface-dim": "#d8dadd",
+                        "on-tertiary-container": "#9a7f61",
+                        "on-secondary-fixed-variant": "#584400",
+                        "secondary-fixed-dim": "#e6c364",
+                        "on-surface-variant": "#44474c",
+                        "on-tertiary-fixed-variant": "#584329",
+                        "secondary-container": "#fed977",
+                        "inverse-primary": "#bac8dc",
+                        "surface-container": "#eceef1",
+                        "surface-container-low": "#f2f4f7",
+                        "on-secondary-container": "#785d00",
+                        "primary": "#000000",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-fixed": "#0f1c2c",
+                        "secondary-fixed": "#ffe08f",
+                        "tertiary-container": "#281804",
+                        "primary-fixed": "#d6e4f9",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e6e8eb",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#bac8dc",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e0e3e6",
+                        "surface-variant": "#e0e3e6",
+                        "outline": "#74777d",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#191c1e",
+                        "tertiary": "#000000"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full flex justify-between items-center px-8 h-20 bg-slate-900 dark:bg-black z-50 shadow-xl shadow-slate-900/20">
+<div class="text-xl font-bold tracking-tighter text-white uppercase">Certificate Verification System</div>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex gap-6">
+<a class="text-slate-300 hover:text-white transition-colors text-sm font-medium Inter" href="#">University Portal</a>
+<a class="text-slate-300 hover:text-white transition-colors text-sm font-medium Inter" href="#">Student Portal</a>
+<a class="text-amber-400 border-b-2 border-amber-400 pb-1 text-sm font-medium Inter" href="#">Admin</a>
+</nav>
+<div class="flex items-center gap-4 border-l border-slate-700 pl-8">
+<button class="text-slate-300 hover:bg-slate-800 transition-all p-2 rounded-lg">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-300 hover:bg-slate-800 transition-all p-2 rounded-lg">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+<button class="text-slate-300 hover:bg-slate-800 transition-all p-2 rounded-lg">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex pt-20 h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-72 bg-slate-900 dark:bg-slate-950 flex flex-col pt-24 pb-8 overflow-y-auto z-40">
+<div class="px-8 mb-10">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 bg-amber-500 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-900 text-lg" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<h2 class="text-lg font-bold Manrope text-white leading-tight">Institutional Ledger</h2>
+</div>
+<p class="text-slate-400 text-[10px] uppercase tracking-widest font-semibold Inter">Academic Authority</p>
+</div>
+<nav class="flex-grow flex flex-col gap-1">
+<a class="text-slate-400 flex items-center gap-4 px-8 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-xs font-semibold uppercase tracking-widest Inter">Dashboard</span>
+</a>
+<a class="text-amber-500 bg-slate-800/50 border-r-4 border-amber-500 flex items-center gap-4 px-8 py-4 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-xs font-semibold uppercase tracking-widest Inter">Student Accounts</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 px-8 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span class="text-xs font-semibold uppercase tracking-widest Inter">Issue Certificate</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 px-8 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-xs font-semibold uppercase tracking-widest Inter">Issuance History</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 px-8 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span class="text-xs font-semibold uppercase tracking-widest Inter">Anomaly Alerts</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 px-8 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span class="text-xs font-semibold uppercase tracking-widest Inter">Audit Log</span>
+</a>
+</nav>
+<div class="px-8 mt-auto flex flex-col gap-1">
+<a class="text-slate-400 flex items-center gap-4 py-3 hover:text-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-xs font-semibold uppercase tracking-widest Inter">Settings</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 py-3 hover:text-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="text-xs font-semibold uppercase tracking-widest Inter">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-72 flex-grow overflow-y-auto p-12 bg-surface">
+<!-- Page Header Area -->
+<div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
+<div class="max-w-xl">
+<h1 class="text-3xl font-bold font-headline text-on-surface mb-2">Student Accounts</h1>
+<p class="text-on-surface-variant body-md">Manage institutional access, review linked credentials, and maintain sovereign student identity records across the blockchain ledger.</p>
+</div>
+<!-- Search Bar Top Center (Positioned contextually within the header flex) -->
+<div class="w-full max-w-md">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-surface-tint" data-icon="search">search</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-highest border-none rounded-lg text-sm font-medium focus:ring-2 focus:ring-surface-tint transition-all placeholder:text-on-surface-variant/60" placeholder="Search by Name or ID..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Stats Overview (Asymmetric Bento) -->
+<div class="grid grid-cols-12 gap-6 mb-12">
+<div class="col-span-12 md:col-span-8 bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+<div class="flex justify-between items-start">
+<div>
+<p class="label-md text-on-surface-variant uppercase tracking-widest mb-4">Verification Velocity</p>
+<h3 class="display-lg font-headline text-primary">12,482</h3>
+<p class="text-sm text-on-surface-variant mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-green-600 text-sm" data-icon="trending_up">trending_up</span>
+<span class="font-bold text-green-600">12%</span> Increase since last semester
+                            </p>
+</div>
+<div class="w-48 h-32 bg-surface-container-low rounded-lg p-2 overflow-hidden">
+<div class="w-full h-full flex items-end gap-1">
+<div class="w-1/4 bg-primary-container h-[40%] rounded-t-sm"></div>
+<div class="w-1/4 bg-primary-container h-[60%] rounded-t-sm"></div>
+<div class="w-1/4 bg-primary-container h-[90%] rounded-t-sm"></div>
+<div class="w-1/4 bg-secondary h-[75%] rounded-t-sm"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-span-12 md:col-span-4 bg-primary-container p-8 rounded-xl flex flex-col justify-between text-white">
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<div>
+<h4 class="text-xl font-headline mb-1">Audit Ready</h4>
+<p class="text-slate-400 text-xs leading-relaxed">System protocols compliant with Ghanaian Institutional Integrity standards for the current academic year.</p>
+</div>
+</div>
+</div>
+<!-- Toast / Confirmation Area (Mocked as suggested) -->
+<div class="mb-8 hidden md:block">
+<div class="bg-surface-container-highest/50 p-4 rounded-lg flex items-center justify-between backdrop-blur-sm border-l-4 border-secondary">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="info">info</span>
+<p class="text-sm font-medium text-on-surface">Administrative Tip: Resetting a password will log the student out of all active blockchain sessions.</p>
+</div>
+<button class="text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+</div>
+</div>
+<!-- Student Accounts Table -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead class="bg-primary-container text-on-primary-container">
+<tr>
+<th class="px-6 py-4 label-md uppercase tracking-wider">Student Name</th>
+<th class="px-6 py-4 label-md uppercase tracking-wider">Student ID</th>
+<th class="px-6 py-4 label-md uppercase tracking-wider">University</th>
+<th class="px-6 py-4 label-md uppercase tracking-wider">Certificate ID</th>
+<th class="px-6 py-4 label-md uppercase tracking-wider">Date Created</th>
+<th class="px-6 py-4 label-md uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<!-- Row 1 -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5 font-semibold text-on-surface">Kofi Mensah</td>
+<td class="px-6 py-5 font-mono text-xs text-on-surface-variant">UG-2023-4482-A</td>
+<td class="px-6 py-5 text-on-surface-variant">University of Ghana</td>
+<td class="px-6 py-5 font-mono text-xs text-secondary">#CERT-9920-X</td>
+<td class="px-6 py-5 text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-6 py-5 text-right">
+<button class="px-4 py-2 border border-primary-container text-primary-container text-xs font-bold rounded hover:bg-primary-container hover:text-white transition-all scale-100 active:scale-95">RESET PASSWORD</button>
+</td>
+</tr>
+<!-- Row 2 (Alternating) -->
+<tr class="bg-primary-fixed/10 hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5 font-semibold text-on-surface">Abena Osei-Tutu</td>
+<td class="px-6 py-5 font-mono text-xs text-on-surface-variant">KN-2022-8119-B</td>
+<td class="px-6 py-5 text-on-surface-variant">KNUST</td>
+<td class="px-6 py-5 font-mono text-xs text-secondary">#CERT-4412-Z</td>
+<td class="px-6 py-5 text-on-surface-variant">Nov 04, 2023</td>
+<td class="px-6 py-5 text-right">
+<button class="px-4 py-2 border border-primary-container text-primary-container text-xs font-bold rounded hover:bg-primary-container hover:text-white transition-all scale-100 active:scale-95">RESET PASSWORD</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5 font-semibold text-on-surface">Kwame Appiah</td>
+<td class="px-6 py-5 font-mono text-xs text-on-surface-variant">UC-2023-1102-C</td>
+<td class="px-6 py-5 text-on-surface-variant">UCC Cape Coast</td>
+<td class="px-6 py-5 font-mono text-xs text-secondary">#CERT-8819-K</td>
+<td class="px-6 py-5 text-on-surface-variant">Jan 15, 2024</td>
+<td class="px-6 py-5 text-right">
+<button class="px-4 py-2 border border-primary-container text-primary-container text-xs font-bold rounded hover:bg-primary-container hover:text-white transition-all scale-100 active:scale-95">RESET PASSWORD</button>
+</td>
+</tr>
+<!-- Row 4 (Alternating) -->
+<tr class="bg-primary-fixed/10 hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5 font-semibold text-on-surface">Esi Bampoe</td>
+<td class="px-6 py-5 font-mono text-xs text-on-surface-variant">UG-2023-5592-D</td>
+<td class="px-6 py-5 text-on-surface-variant">University of Ghana</td>
+<td class="px-6 py-5 font-mono text-xs text-secondary">#CERT-2234-Y</td>
+<td class="px-6 py-5 text-on-surface-variant">Feb 21, 2024</td>
+<td class="px-6 py-5 text-right">
+<button class="px-4 py-2 border border-primary-container text-primary-container text-xs font-bold rounded hover:bg-primary-container hover:text-white transition-all scale-100 active:scale-95">RESET PASSWORD</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5 font-semibold text-on-surface">Yaw Boateng</td>
+<td class="px-6 py-5 font-mono text-xs text-on-surface-variant">AS-2023-7711-E</td>
+<td class="px-6 py-5 text-on-surface-variant">Ashesi University</td>
+<td class="px-6 py-5 font-mono text-xs text-secondary">#CERT-5509-P</td>
+<td class="px-6 py-5 text-on-surface-variant">Mar 02, 2024</td>
+<td class="px-6 py-5 text-right">
+<button class="px-4 py-2 border border-primary-container text-primary-container text-xs font-bold rounded hover:bg-primary-container hover:text-white transition-all scale-100 active:scale-95">RESET PASSWORD</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="px-6 py-4 flex justify-between items-center bg-surface-container-low">
+<p class="text-xs text-on-surface-variant font-medium">Showing 1-5 of 12,482 student records</p>
+<div class="flex gap-2">
+<button class="p-2 rounded bg-surface-container-lowest text-on-surface-variant border border-outline-variant hover:bg-white transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="p-2 rounded bg-primary-container text-white border border-primary-container shadow-md">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="w-full py-6 mt-auto flex flex-col items-center justify-center gap-4 px-8 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 z-50">
+<p class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500">
+            © 2024 Academic Ledger Technologies. Ghanaian Institutional Integrity Protocol.
+        </p>
+<div class="flex gap-6">
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Privacy Policy</a>
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Blockchain Transparency Report</a>
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Terms of Service</a>
+</div>
+</footer>
+</body></html>

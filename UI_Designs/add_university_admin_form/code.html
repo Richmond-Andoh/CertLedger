@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add University Admin Account | Certificate Verification System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-on-surface": "#eff1f4",
+              "surface": "#f7f9fc",
+              "surface-bright": "#f7f9fc",
+              "tertiary-fixed-dim": "#e0c1a0",
+              "tertiary-fixed": "#feddba",
+              "on-error-container": "#93000a",
+              "outline-variant": "#c4c6cc",
+              "background": "#f7f9fc",
+              "surface-tint": "#525f71",
+              "on-tertiary-fixed": "#281804",
+              "on-surface": "#191c1e",
+              "on-error": "#ffffff",
+              "primary-container": "#0f1c2c",
+              "on-primary-container": "#778598",
+              "secondary": "#755b00",
+              "error": "#ba1a1a",
+              "on-primary-fixed-variant": "#3a4859",
+              "on-secondary-fixed": "#241a00",
+              "surface-dim": "#d8dadd",
+              "on-tertiary-container": "#9a7f61",
+              "on-secondary-fixed-variant": "#584400",
+              "secondary-fixed-dim": "#e6c364",
+              "on-surface-variant": "#44474c",
+              "on-tertiary-fixed-variant": "#584329",
+              "secondary-container": "#fed977",
+              "inverse-primary": "#bac8dc",
+              "surface-container": "#eceef1",
+              "surface-container-low": "#f2f4f7",
+              "on-secondary-container": "#785d00",
+              "primary": "#000000",
+              "inverse-surface": "#2d3133",
+              "on-primary-fixed": "#0f1c2c",
+              "secondary-fixed": "#ffe08f",
+              "tertiary-container": "#281804",
+              "primary-fixed": "#d6e4f9",
+              "error-container": "#ffdad6",
+              "surface-container-high": "#e6e8eb",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed-dim": "#bac8dc",
+              "on-secondary": "#ffffff",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e6",
+              "surface-variant": "#e0e3e6",
+              "outline": "#74777d",
+              "on-tertiary": "#ffffff",
+              "on-background": "#191c1e",
+              "tertiary": "#000000"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopAppBar Execution -->
+<header class="fixed top-0 w-full flex justify-between items-center px-8 h-20 bg-slate-900 shadow-xl shadow-slate-900/20 z-50">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-white uppercase">Certificate Verification System</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-sm font-medium Inter text-slate-300 hover:text-white transition-colors" href="#">University Portal</a>
+<a class="text-sm font-medium Inter text-slate-300 hover:text-white transition-colors" href="#">Student Portal</a>
+<a class="text-sm font-medium Inter text-amber-400 border-b-2 border-amber-400 pb-1" href="#">Admin</a>
+</nav>
+</div>
+<div class="flex items-center gap-4 text-amber-500">
+<button class="p-2 hover:bg-slate-800 transition-all duration-200 rounded-lg">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-800 transition-all duration-200 rounded-lg">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+<button class="p-2 hover:bg-slate-800 transition-all duration-200 rounded-lg">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 pt-20">
+<!-- SideNavBar Execution -->
+<aside class="hidden lg:flex flex-col h-screen w-72 fixed left-0 top-0 pt-24 pb-8 overflow-y-auto bg-slate-900 shadow-2xl shadow-black/50 z-40">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500">
+<span class="material-symbols-outlined" data-icon="verified_user" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+<div>
+<h2 class="text-lg font-bold Manrope text-white">Institutional Ledger</h2>
+<p class="text-[10px] font-semibold uppercase tracking-widest text-slate-500">Academic Authority</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-slate-400 flex items-center gap-4 px-6 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-xs font-semibold uppercase tracking-widest">Dashboard</span>
+</a>
+<a class="text-amber-500 bg-slate-800/50 border-r-4 border-amber-500 flex items-center gap-4 px-6 py-4 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span class="text-xs font-semibold uppercase tracking-widest">Issue Certificate</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 px-6 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-xs font-semibold uppercase tracking-widest">Issuance History</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 px-6 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span class="text-xs font-semibold uppercase tracking-widest">Anomaly Alerts</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 px-6 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span class="text-xs font-semibold uppercase tracking-widest">Audit Log</span>
+</a>
+</nav>
+<div class="mt-auto px-6 pt-6 border-t border-slate-800">
+<a class="text-slate-400 flex items-center gap-4 py-3 hover:text-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-xs font-semibold uppercase tracking-widest">Settings</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 py-3 hover:text-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="text-xs font-semibold uppercase tracking-widest">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 lg:ml-72 bg-surface-container-low p-8 md:p-16 flex flex-col items-center">
+<div class="w-full max-w-2xl">
+<!-- Header Section -->
+<div class="mb-12">
+<nav class="flex items-center gap-2 text-on-surface-variant text-sm mb-4">
+<span class="hover:text-primary cursor-pointer">Admin Dashboard</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-primary font-semibold">User Management</span>
+</nav>
+<h1 class="text-4xl font-extrabold tracking-tight text-primary mb-2">Add University Admin Account</h1>
+<p class="text-on-surface-variant max-w-lg">Provision new access credentials for institutional partners within the blockchain ledger network.</p>
+</div>
+<!-- Form Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-xl shadow-slate-900/5 p-10 border-0">
+<form class="space-y-8">
+<!-- University Identity Group -->
+<div class="space-y-6">
+<div class="grid grid-cols-1 gap-6">
+<div class="space-y-2">
+<label class="label-md block text-on-surface-variant font-semibold">University Name</label>
+<input class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-surface-tint transition-all text-on-surface placeholder:text-outline" placeholder="e.g. University of Ghana, Legon" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="label-md block text-on-surface-variant font-semibold">Admin Username</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-lg">alternate_email</span>
+<input class="w-full bg-surface-container-highest border-none rounded-lg pl-12 pr-4 py-3 focus:ring-2 focus:ring-surface-tint transition-all text-on-surface placeholder:text-outline" placeholder="admin.institution" type="text"/>
+</div>
+<p class="text-[10px] text-outline-variant italic">This will be the unique identifier for blockchain transaction signatures.</p>
+</div>
+</div>
+</div>
+<!-- Security Section -->
+<div class="pt-6 border-t border-surface-container-high">
+<h3 class="title-lg text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-600">security</span>
+                                Security Protocol
+                            </h3>
+<div class="bg-surface-container-low rounded-lg p-6 space-y-4">
+<label class="label-md block text-on-surface-variant font-semibold">Temporary System Password</label>
+<div class="flex flex-col sm:flex-row items-center gap-3">
+<div class="flex-1 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-6 py-3 font-mono text-lg tracking-widest text-primary flex justify-between items-center w-full">
+<span>x7k9-p2z5</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+<button class="whitespace-nowrap px-6 py-3 border border-primary text-primary font-bold rounded-lg hover:bg-primary-container hover:text-white transition-all active:scale-95" type="button">
+                                        Regenerate
+                                    </button>
+</div>
+<div class="flex items-start gap-2 mt-2">
+<span class="material-symbols-outlined text-amber-600 text-sm mt-0.5">info</span>
+<p class="text-xs text-on-surface-variant leading-relaxed">The administrator will be prompted to establish a permanent cryptographic key upon their first entry into the protocol.</p>
+</div>
+</div>
+</div>
+<!-- Form Actions -->
+<div class="pt-8 flex flex-col-reverse sm:flex-row items-center justify-end gap-4">
+<button class="w-full sm:w-auto px-8 py-3 text-on-surface-variant font-semibold hover:text-primary transition-colors" type="button">
+                                Cancel
+                            </button>
+<button class="w-full sm:w-auto bg-secondary text-white px-10 py-3 rounded-lg font-bold shadow-lg shadow-secondary/20 hover:scale-[1.02] active:scale-95 transition-all" type="submit">
+                                Create Account
+                            </button>
+</div>
+</form>
+</div>
+<!-- Auxiliary Information Card -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="p-6 bg-surface-container-lowest rounded-lg">
+<span class="material-symbols-outlined text-secondary mb-2" style="font-variation-settings: 'FILL' 1;">shield_person</span>
+<h4 class="font-bold text-primary text-sm mb-1">Access Control</h4>
+<p class="text-xs text-on-surface-variant">New admins inherit "Issue Only" permissions by default. Tier 2 verification requires manual audit approval.</p>
+</div>
+<div class="p-6 bg-surface-container-lowest rounded-lg">
+<span class="material-symbols-outlined text-secondary mb-2" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+<h4 class="font-bold text-primary text-sm mb-1">Immutable Trail</h4>
+<p class="text-xs text-on-surface-variant">All administrative provisioning actions are recorded on the Ghanaian Institutional Integrity Protocol ledger.</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer Execution -->
+<footer class="w-full py-10 mt-auto bg-slate-50 border-t border-slate-200">
+<div class="flex flex-col items-center justify-center gap-4 w-full px-8">
+<p class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500">
+                © 2024 Academic Ledger Technologies. Ghanaian Institutional Integrity Protocol.
+            </p>
+<div class="flex gap-8">
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Privacy Policy</a>
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Blockchain Transparency Report</a>
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+</body></html>

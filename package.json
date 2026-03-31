@@ -1,0 +1,34 @@
+{
+  "name": "certledger",
+  "version": "1.0.0",
+  "description": "Blockchain-based academic certificate verification system",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:local": "hardhat run scripts/deploy.js --network hardhat",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "verify": "hardhat verify",
+    "node": "hardhat node",
+    "clean": "hardhat clean",
+    "backend:dev": "cd backend && npm run dev",
+    "backend:start": "cd backend && npm start",
+    "backend:install": "cd backend && npm install"
+  },
+  "keywords": ["blockchain", "certificate", "verification", "ethereum", "academic"],
+  "author": "CertLedger Team",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ethers": "^2.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "chai": "^4.3.7",
+    "hardhat": "^2.19.0",
+    "@openzeppelin/contracts": "^4.9.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
+}

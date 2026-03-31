@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "inverse-on-surface": "#eff1f4",
+            "surface": "#f7f9fc",
+            "surface-bright": "#f7f9fc",
+            "tertiary-fixed-dim": "#e0c1a0",
+            "tertiary-fixed": "#feddba",
+            "on-error-container": "#93000a",
+            "outline-variant": "#c4c6cc",
+            "background": "#f7f9fc",
+            "surface-tint": "#525f71",
+            "on-tertiary-fixed": "#281804",
+            "on-surface": "#191c1e",
+            "on-error": "#ffffff",
+            "primary-container": "#0f1c2c",
+            "on-primary-container": "#778598",
+            "secondary": "#755b00",
+            "error": "#ba1a1a",
+            "on-primary-fixed-variant": "#3a4859",
+            "on-secondary-fixed": "#241a00",
+            "surface-dim": "#d8dadd",
+            "on-tertiary-container": "#9a7f61",
+            "on-secondary-fixed-variant": "#584400",
+            "secondary-fixed-dim": "#e6c364",
+            "on-surface-variant": "#44474c",
+            "on-tertiary-fixed-variant": "#584329",
+            "secondary-container": "#fed977",
+            "inverse-primary": "#bac8dc",
+            "surface-container": "#eceef1",
+            "surface-container-low": "#f2f4f7",
+            "on-secondary-container": "#785d00",
+            "primary": "#000000",
+            "inverse-surface": "#2d3133",
+            "on-primary-fixed": "#0f1c2c",
+            "secondary-fixed": "#ffe08f",
+            "tertiary-container": "#281804",
+            "primary-fixed": "#d6e4f9",
+            "error-container": "#ffdad6",
+            "surface-container-high": "#e6e8eb",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed-dim": "#bac8dc",
+            "on-secondary": "#ffffff",
+            "on-primary": "#ffffff",
+            "surface-container-highest": "#e0e3e6",
+            "surface-variant": "#e0e3e6",
+            "outline": "#74777d",
+            "on-tertiary": "#ffffff",
+            "on-background": "#191c1e",
+            "tertiary": "#000000"
+          },
+          fontFamily: {
+            "headline": ["Manrope"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          },
+          borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .verification-pulse {
+      box-shadow: 0 0 0 0 rgba(88, 67, 41, 0.4);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(88, 67, 41, 0.4); }
+      70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(88, 67, 41, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(88, 67, 41, 0); }
+    }
+  </style>
+</head>
+<body class="bg-background font-body text-on-background min-h-screen flex flex-col">
+<!-- TopAppBar from JSON -->
+<header class="fixed top-0 w-full flex justify-between items-center px-8 h-20 bg-slate-900 dark:bg-black z-50 shadow-xl shadow-slate-900/20">
+<div class="text-xl font-bold tracking-tighter text-white uppercase">Certificate Verification System</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-300 hover:text-white transition-colors text-sm font-medium Inter" href="#">University Portal</a>
+<a class="text-slate-300 hover:text-white transition-colors text-sm font-medium Inter" href="#">Student Portal</a>
+<a class="text-slate-300 hover:text-white transition-colors text-sm font-medium Inter" href="#">Admin</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-amber-500 cursor-pointer hover:bg-slate-800 p-2 rounded-full transition-all">notifications</span>
+<span class="material-symbols-outlined text-amber-500 cursor-pointer hover:bg-slate-800 p-2 rounded-full transition-all">account_circle</span>
+<span class="material-symbols-outlined text-amber-500 cursor-pointer hover:bg-slate-800 p-2 rounded-full transition-all">logout</span>
+</div>
+</header>
+<main class="flex-grow pt-32 pb-20 px-4 md:px-16 max-w-7xl mx-auto w-full">
+<!-- Success Hero Section -->
+<div class="flex flex-col items-center text-center mb-12">
+<div class="w-24 h-24 bg-on-tertiary-fixed-variant/10 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-6xl text-on-tertiary-fixed-variant" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<h1 class="font-headline text-4xl md:text-5xl font-bold tracking-tight text-on-tertiary-fixed-variant mb-4">VALID — Certificate Verified</h1>
+<p class="font-body text-lg text-on-surface-variant max-w-2xl">
+        This certificate is genuine and matches the blockchain record. The cryptographic hash has been successfully validated against the Institutional Ledger.
+      </p>
+</div>
+<!-- Verification Result Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Primary Certificate Details Card -->
+<div class="lg:col-span-8 bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<h2 class="font-headline text-2xl font-semibold">Certificate Details</h2>
+<div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-on-tertiary-fixed-variant/10 text-on-tertiary-fixed-variant font-semibold text-sm">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-fixed-variant animate-pulse"></span>
+            Blockchain Verified
+          </div>
+</div>
+<div class="space-y-0">
+<!-- Item 1 -->
+<div class="flex flex-col md:flex-row md:items-center justify-between py-6 border-b border-surface-container">
+<span class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1 md:mb-0">Full Name</span>
+<span class="font-headline text-lg font-bold">Kofi Mensah Boateng</span>
+</div>
+<!-- Item 2 -->
+<div class="flex flex-col md:flex-row md:items-center justify-between py-6 border-b border-surface-container">
+<span class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1 md:mb-0">Student ID</span>
+<span class="font-body font-semibold text-on-surface">UG-2021-008942</span>
+</div>
+<!-- Item 3 -->
+<div class="flex flex-col md:flex-row md:items-center justify-between py-6 border-b border-surface-container">
+<span class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1 md:mb-0">Institution</span>
+<span class="font-body font-semibold text-on-surface">University of Ghana, Legon</span>
+</div>
+<!-- Item 4 -->
+<div class="flex flex-col md:flex-row md:items-center justify-between py-6 border-b border-surface-container">
+<span class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1 md:mb-0">Degree Title</span>
+<span class="font-body font-semibold text-on-surface">BSc. Computer Science</span>
+</div>
+<!-- Item 5 -->
+<div class="flex flex-col md:flex-row md:items-center justify-between py-6 border-b border-surface-container">
+<span class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1 md:mb-0">Graduation Date</span>
+<span class="font-body font-semibold text-on-surface">November 14, 2023</span>
+</div>
+<!-- Item 6 -->
+<div class="flex flex-col md:flex-row md:items-center justify-between py-6">
+<span class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1 md:mb-0">Classification</span>
+<span class="font-body font-semibold text-on-surface">First Class Honours</span>
+</div>
+</div>
+</div>
+<!-- Side Verification Context -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Visual Seal Card -->
+<div class="bg-primary-container rounded-xl p-8 flex flex-col items-center text-center text-white overflow-hidden relative">
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<img class="w-full h-full object-cover" data-alt="a complex geometric guilloche pattern used in security printing and currency design, elegant repeating lines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPK0649AanG6aZee9lha7_qoCSNMwaTsJugJWsuzly3sp6yE1h12FO0aW6PNfpvrFWFOBVRV0VEgsIByz0pAz5J_hc8FCJpR7RBMkvEdfC5peRTr_NSMkyIp7JGEZwhRlMsP_YNk0DmHzfCPlGZg3JN922RVbYZsTBwdBGK1ZnhSibQe0l0Vg7NwGaJWdiLEfe1-TEVt7a3IPIvUhfWLzD4a8TdcOEWENR6x5xKuT5mbSPHhO0lDMdlwV7Iu1bBYG-Q8_BEApSi25H"/>
+</div>
+<div class="relative z-10">
+<img class="w-20 h-20 mb-4 mx-auto object-contain" data-alt="heraldic university crest with gold and navy colors, featuring an open book and traditional symbols" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfT_MHBHgYj6bL6G9UDFYkvVTe6K6biKfmIPF1Cb9HMwxu6hqZhDf8yMkwLqSar9vTaTOxyWDHjLX3y5ck6u2gEpIcqpNN89dx20S2Dm3lZQOaF_O1UGzRSqOwx1V-ec-0uS0ibFplmuFhoKCe86b9hSTdhrVHDPL_dFyILiTKp5hHahPKo497jBNgRaxPnOLY9gl9pAwyrRKVWcxsWJswmiUKbfmcmXW3iNlQ_EWlAatVWsJqA2dzdA-7gWLIc15lPj88tnsqRRFm"/>
+<h3 class="font-headline font-bold text-xl mb-2">Institutional Seal</h3>
+<p class="text-on-primary-container text-sm leading-relaxed mb-6">
+              Authenticated by the Academic Registry and anchored on the Ghanaian Institutional Integrity Protocol.
+            </p>
+<div class="w-full h-px bg-on-primary-container/20 mb-6"></div>
+<div class="text-[10px] font-mono break-all text-amber-500/80">
+              HASH: 8f4e2c91a0b3d...e6f7g8h9
+            </div>
+</div>
+</div>
+<!-- Info Box -->
+<div class="bg-surface-container-low rounded-xl p-6 flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary pt-1">info</span>
+<div>
+<p class="text-sm font-medium text-on-surface-variant">
+              Verified against the blockchain on <span class="text-on-surface font-bold">Oct 24, 2024 at 14:32 GMT</span>
+</p>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full bg-secondary text-on-secondary font-headline font-bold py-5 rounded-xl shadow-lg hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3">
+<span class="material-symbols-outlined">restart_alt</span>
+          Verify Another Certificate
+        </button>
+</div>
+</div>
+</main>
+<!-- Footer from JSON -->
+<footer class="w-full py-6 mt-auto bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center gap-4 px-8">
+<div class="flex gap-6">
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Privacy Policy</a>
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Blockchain Transparency Report</a>
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors" href="#">Terms of Service</a>
+</div>
+<p class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 opacity-80">
+      © 2024 Academic Ledger Technologies. Ghanaian Institutional Integrity Protocol.
+    </p>
+</footer>
+</body></html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Issuance History | Certificate Verification System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-on-surface": "#eff1f4",
+                        "surface": "#f7f9fc",
+                        "surface-bright": "#f7f9fc",
+                        "tertiary-fixed-dim": "#e0c1a0",
+                        "tertiary-fixed": "#feddba",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c4c6cc",
+                        "background": "#f7f9fc",
+                        "surface-tint": "#525f71",
+                        "on-tertiary-fixed": "#281804",
+                        "on-surface": "#191c1e",
+                        "on-error": "#ffffff",
+                        "primary-container": "#0f1c2c",
+                        "on-primary-container": "#778598",
+                        "secondary": "#755b00",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#3a4859",
+                        "on-secondary-fixed": "#241a00",
+                        "surface-dim": "#d8dadd",
+                        "on-tertiary-container": "#9a7f61",
+                        "on-secondary-fixed-variant": "#584400",
+                        "secondary-fixed-dim": "#e6c364",
+                        "on-surface-variant": "#44474c",
+                        "on-tertiary-fixed-variant": "#584329",
+                        "secondary-container": "#fed977",
+                        "inverse-primary": "#bac8dc",
+                        "surface-container": "#eceef1",
+                        "surface-container-low": "#f2f4f7",
+                        "on-secondary-container": "#785d00",
+                        "primary": "#000000",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-fixed": "#0f1c2c",
+                        "secondary-fixed": "#ffe08f",
+                        "tertiary-container": "#281804",
+                        "primary-fixed": "#d6e4f9",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e6e8eb",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#bac8dc",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e0e3e6",
+                        "surface-variant": "#e0e3e6",
+                        "outline": "#74777d",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#191c1e",
+                        "tertiary": "#000000"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full flex justify-between items-center px-8 h-20 bg-slate-900 dark:bg-black text-white z-50 shadow-xl shadow-slate-900/20">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold tracking-tighter text-white uppercase">University of Ghana</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex gap-6">
+<a class="text-slate-300 hover:text-white transition-colors text-sm font-medium Inter" href="#">University Portal</a>
+<a class="text-slate-300 hover:text-white transition-colors text-sm font-medium Inter" href="#">Student Portal</a>
+<a class="text-slate-300 hover:text-white transition-colors text-sm font-medium Inter" href="#">Admin</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-800 dark:hover:bg-slate-900 transition-all duration-200 rounded-full">
+<span class="material-symbols-outlined text-amber-500 dark:text-amber-400">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-800 dark:hover:bg-slate-900 transition-all duration-200 rounded-full">
+<span class="material-symbols-outlined text-amber-500 dark:text-amber-400">account_circle</span>
+</button>
+<button class="p-2 hover:bg-slate-800 dark:hover:bg-slate-900 transition-all duration-200 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-500 dark:text-amber-400">logout</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-72 bg-slate-900 dark:bg-slate-950 shadow-2xl shadow-black/50 z-40 flex flex-col pt-24 pb-8 overflow-y-auto">
+<div class="px-8 mb-10">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-amber-500">account_balance</span>
+</div>
+<div>
+<h2 class="text-lg font-bold Manrope text-white leading-tight">Institutional Ledger</h2>
+<p class="text-[10px] font-semibold uppercase tracking-widest Inter text-slate-400">Academic Authority</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-slate-400 flex items-center gap-4 px-8 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-xs font-semibold uppercase tracking-widest Inter">Dashboard</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 px-8 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="text-xs font-semibold uppercase tracking-widest Inter">Issue Certificate</span>
+</a>
+<a class="text-amber-500 bg-slate-800/50 border-r-4 border-amber-500 flex items-center gap-4 px-8 py-4 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="text-xs font-semibold uppercase tracking-widest Inter">Issuance History</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 px-8 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined">warning</span>
+<span class="text-xs font-semibold uppercase tracking-widest Inter">Anomaly Alerts</span>
+</a>
+<a class="text-slate-400 flex items-center gap-4 px-8 py-4 hover:text-slate-100 hover:bg-slate-800/30 transition-all" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="text-xs font-semibold uppercase tracking-widest Inter">Audit Log</span>
+</a>
+</nav>
+<div class="mt-auto px-8 space-y-1 border-t border-slate-800 pt-6">
+<a class="text-slate-500 flex items-center gap-4 py-2 hover:text-amber-600 transition-colors text-xs font-semibold uppercase tracking-widest Inter" href="#">
+<span class="material-symbols-outlined scale-75">settings</span>
+                Settings
+            </a>
+<a class="text-slate-500 flex items-center gap-4 py-2 hover:text-amber-600 transition-colors text-xs font-semibold uppercase tracking-widest Inter" href="#">
+<span class="material-symbols-outlined scale-75">help_outline</span>
+                Support
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-72 pt-28 px-12 pb-12 min-h-screen">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div>
+<p class="text-on-tertiary-fixed-variant font-semibold tracking-widest text-xs uppercase mb-2">Central Registry</p>
+<h1 class="text-4xl font-extrabold tracking-tight text-primary">Issuance History</h1>
+</div>
+<!-- Search Bar: Top Center Intent with Architectural Polish -->
+<div class="w-full max-w-xl relative">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full bg-surface-container-highest border-none rounded-xl py-4 pl-12 pr-6 text-sm focus:ring-2 focus:ring-surface-tint/30 transition-all placeholder:text-outline" placeholder="Search by Student Name or Certificate ID..." type="text"/>
+</div>
+</div>
+<!-- Table Container -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-primary-container text-on-primary-container">
+<th class="px-6 py-5 text-[10px] font-bold uppercase tracking-widest Inter">Certificate ID</th>
+<th class="px-6 py-5 text-[10px] font-bold uppercase tracking-widest Inter">Student Name</th>
+<th class="px-6 py-5 text-[10px] font-bold uppercase tracking-widest Inter">Student ID</th>
+<th class="px-6 py-5 text-[10px] font-bold uppercase tracking-widest Inter">Qualification</th>
+<th class="px-6 py-5 text-[10px] font-bold uppercase tracking-widest Inter">Date Issued</th>
+<th class="px-6 py-5 text-[10px] font-bold uppercase tracking-widest Inter text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y-0">
+<!-- Row 1: White -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container transition-colors group">
+<td class="px-6 py-5">
+<span class="font-mono text-xs font-semibold text-primary">#CERT-992-001</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-[10px] font-bold text-on-primary-fixed">KA</div>
+<span class="text-sm font-medium text-on-surface">Kofi Ansah</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">UG-10882345</td>
+<td class="px-6 py-5">
+<span class="text-xs font-semibold bg-surface-container-high px-2 py-1 rounded">B.Sc. Computer Science</span>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-6 py-5 text-right">
+<button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-tight hover:scale-105 active:scale-95 transition-all shadow-sm">View Details</button>
+</td>
+</tr>
+<!-- Row 2: Light Blue Tonal (Primary Fixed at 10% opacity equivalent) -->
+<tr class="bg-primary-fixed/20 hover:bg-surface-container transition-colors group">
+<td class="px-6 py-5">
+<span class="font-mono text-xs font-semibold text-primary">#CERT-992-002</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-[10px] font-bold text-on-secondary-fixed">AM</div>
+<span class="text-sm font-medium text-on-surface">Abena Mensah</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">UG-10992110</td>
+<td class="px-6 py-5">
+<span class="text-xs font-semibold bg-surface-container-high px-2 py-1 rounded">LL.B Law</span>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Oct 14, 2023</td>
+<td class="px-6 py-5 text-right">
+<button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-tight hover:scale-105 active:scale-95 transition-all shadow-sm">View Details</button>
+</td>
+</tr>
+<!-- Row 3: White -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container transition-colors group">
+<td class="px-6 py-5">
+<span class="font-mono text-xs font-semibold text-primary">#CERT-992-003</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-[10px] font-bold text-on-primary-fixed">EO</div>
+<span class="text-sm font-medium text-on-surface">Emmanuel Owusu</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">UG-10773422</td>
+<td class="px-6 py-5">
+<span class="text-xs font-semibold bg-surface-container-high px-2 py-1 rounded">M.A. International Relations</span>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Oct 15, 2023</td>
+<td class="px-6 py-5 text-right">
+<button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-tight hover:scale-105 active:scale-95 transition-all shadow-sm">View Details</button>
+</td>
+</tr>
+<!-- Row 4: Light Blue Tonal -->
+<tr class="bg-primary-fixed/20 hover:bg-surface-container transition-colors group">
+<td class="px-6 py-5">
+<span class="font-mono text-xs font-semibold text-primary">#CERT-992-004</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center text-[10px] font-bold text-on-tertiary-fixed">SA</div>
+<span class="text-sm font-medium text-on-surface">Sarah Appiah</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">UG-10884567</td>
+<td class="px-6 py-5">
+<span class="text-xs font-semibold bg-surface-container-high px-2 py-1 rounded">B.A. Economics</span>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Oct 15, 2023</td>
+<td class="px-6 py-5 text-right">
+<button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-tight hover:scale-105 active:scale-95 transition-all shadow-sm">View Details</button>
+</td>
+</tr>
+<!-- Row 5: White -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container transition-colors group">
+<td class="px-6 py-5">
+<span class="font-mono text-xs font-semibold text-primary">#CERT-992-005</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-[10px] font-bold text-on-primary-fixed">JK</div>
+<span class="text-sm font-medium text-on-surface">John Kufuor</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">UG-10995678</td>
+<td class="px-6 py-5">
+<span class="text-xs font-semibold bg-surface-container-high px-2 py-1 rounded">Ph.D. History</span>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Oct 16, 2023</td>
+<td class="px-6 py-5 text-right">
+<button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-tight hover:scale-105 active:scale-95 transition-all shadow-sm">View Details</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between px-8 py-6 bg-surface-container-lowest border-t border-surface-container-highest">
+<span class="text-xs font-medium text-on-surface-variant Inter">Showing 1 to 5 of 124 results</span>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-surface-container-high text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center bg-primary text-on-primary text-xs font-bold">1</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-surface-container-high text-on-surface-variant text-xs font-bold transition-colors">2</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-surface-container-high text-on-surface-variant text-xs font-bold transition-colors">3</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-surface-container-high text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full py-12 mt-20 flex flex-col items-center justify-center gap-4 px-8 border-t border-slate-200 dark:border-slate-800">
+<p class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500">
+                © 2024 Academic Ledger Technologies. Ghanaian Institutional Integrity Protocol.
+            </p>
+<div class="flex gap-6">
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors opacity-80 hover:opacity-100" href="#">Blockchain Transparency Report</a>
+<a class="text-[10px] font-medium Inter uppercase tracking-tighter text-slate-500 hover:text-amber-600 transition-colors opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+</div>
+</footer>
+</main>
+</body></html>

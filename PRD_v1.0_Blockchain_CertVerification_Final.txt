@@ -1,0 +1,349 @@
+﻿PRODUCT REQUIREMENTS DOCUMENT
+Version 1.0
+
+Design and Implementation of a
+Blockchain-Based Academic Certificate Verification System
+with Anomaly Detection
+Field	Details
+Document Type	Product Requirements Document (PRD)
+Version	1.0
+Status	Draft — Pending Supervisor Approval
+Project Type	Final Year Undergraduate Project — Computer Science
+Country / Context	Ghana
+Project Duration	5 Months
+Supervisor	[Supervisor Name]
+Date	2025
+
+
+
+1. Document Purpose
+This PRD defines the complete requirements for a blockchain-based academic certificate verification system. It covers what problem is being solved, what the system will do, who will use it, how each part works, and how success will be measured. It is the single reference document for all design, development, and evaluation work throughout the five-month project.
+
+
+2. Problem Statement
+2.1 Background
+In Ghana, academic certificates are the main document used to prove someone's qualifications. Employers use them when hiring. Universities and professional bodies use them for admission. But the systems currently used to issue and verify these certificates are broken in three clear ways.
+
+2.2 Problem 1 — Fake Certificates Are Easy to Make and Hard to Detect
+Anyone in Ghana can get a convincing fake academic certificate cheaply. Using basic design software, a fraudster can copy the appearance of a real certificate from any university. When an employer receives it, they have no fast or reliable way to check if it is genuine.
+
+The result is that unqualified people get jobs they should not have. Honest graduates lose opportunities to fraudsters. In critical fields like medicine and engineering, this creates direct public safety risks.
+
+The core issue: There is no fast, accessible way for an employer to check whether a certificate is real.
+
+2.3 Problem 2 — Verification Is Slow and Unreliable
+When an employer wants to confirm a certificate is genuine, the only option today is to contact the university directly by phone, letter, or email. This takes seven to fourteen days on average. Many universities do not respond at all. There is no self-service option. Employers are forced to either trust certificates blindly or delay hiring decisions for weeks.
+
+The core issue: There is no instant, independent verification system available to employers in Ghana.
+
+2.4 Problem 3 — Digital Records Can Be Secretly Changed
+Some universities now keep records in digital databases. But these databases are centralised — one office, one system, one point of failure. Anyone with admin access can add a fake record, change a grade, or delete an entry. There is no permanent audit trail. If it happens, it is almost impossible to detect.
+
+The core issue: Centralised digital systems can be manipulated from the inside with no audit trail and no detection mechanism.
+
+2.5 The Identity Binding Question
+During the initial presentation, the lecturer raised a valid concern: what if someone obtains a real certificate ID and attaches it to a fake document?
+
+The answer is built into the verification design. The system does not verify the certificate ID alone. It verifies the entire certificate content. The SHA-256 hash is computed from all fields combined — name, student ID, institution, qualification, date, and grade. When an employer verifies a certificate, they submit all these details. If a fraudster uses a borrowed ID but has different personal details, the recomputed hash will not match the blockchain record. Verification returns INVALID. The fraud fails.
+
+2.6 Summary
+Academic certificates in Ghana can be easily forged, verified too slowly, and digitally manipulated by insiders. This project builds a system that solves all three problems.
+
+
+3. Project Goals
+The following are the clear, simple goals this project must achieve. Every feature, every requirement, and every design decision in this document exists to serve one of these goals.
+
+Goal	What It Means	Why It Matters
+Goal 1 Immutable Records	Certificate hashes are stored on a blockchain. Once written, they cannot be changed or deleted by anyone.	Solves Problem 3. Makes insider tampering impossible after issuance.
+Goal 2 Instant Verification	Any employer can verify any certificate in under 5 seconds. No account. No fee. No phone call.	Solves Problem 2. Replaces the slow manual process entirely.
+Goal 3 Full-Content Hashing	The hash covers every certificate field — not just the ID. Any change to any field makes verification fail.	Solves Problem 1 and the identity binding concern. Fraud cannot pass verification.
+Goal 4 Student Visibility	Every student with a certificate can log in and see what was recorded about them.	Students are the subject of every certificate. They must be able to see their own record.
+Goal 5 Anomaly Monitoring	The system automatically watches for suspicious patterns and alerts the admin.	Adds an intelligent layer that can catch fraud patterns before they cause harm.
+Goal 6 Simple Account Management	The system admin creates university admin accounts. Student accounts are created automatically when a certificate is issued. No open registration.	Keeps the system secure. Only real graduates with real certificates can have a student account.
+
+
+4. User Roles
+The system has four user roles. Each role has a clear job, a clear set of actions, and a clear access level. The design is deliberately simple — no role can do anything that belongs to another role.
+
+Role	Their Job	What They Can Do	How They Get Access
+System Admin	Manages the platform and all accounts	Create and deactivate university admin accounts. Reset passwords. View audit logs. Monitor anomaly dashboard.	Pre-configured account. Not publicly accessible.
+University Admin	Issues certificates on behalf of their institution	Log in, issue certificates, view issuance history, see anomaly alerts.	Account created by System Admin. Username and password set by System Admin.
+Student / Graduate	Views their own certificate record	Log in and view their own certificate details. Read-only. Cannot edit anything.	Account created automatically when their certificate is issued. Credentials given by university admin.
+Employer / Verifier	Verifies whether a certificate is genuine	Enter certificate details on the public verification page. Receive VALID or INVALID result.	No account needed. The verification page is public.
+
+4.1 How Student Accounts Work — Explained Simply
+Students cannot register themselves. There is no open registration for the student portal. This is a deliberate security decision — if anyone could sign up as a student, they could claim to be a graduate without a real certificate.
+
+Instead, when a university admin issues a certificate, the system automatically creates a student account at the same time. The student ID becomes the username. The system generates a temporary password. The university admin sees these credentials on the confirmation screen and gives them to the student directly.
+
+The student logs in with those credentials. On first login, they are immediately asked to change their password. After that, they can see their certificate record whenever they want.
+
+If a student forgets their password, they contact their university admin. The university admin can request a password reset through their portal. The system admin can also reset any password from the admin panel.
+
+Key design decision: A student account only exists if a real certificate has been issued for that student. This links authentication directly to the blockchain record.
+
+
+5. System Architecture
+The system has four layers. Every layer has one clear job. The layers communicate with each other through REST APIs.
+
+
+Figure 1 — System Architecture Overview
+
+Layer	Technology	Its One Job
+Presentation	React.js	The web interface. Serves four different pages for four different roles.
+Application	Node.js + Express	The backend. Handles all logic: hashing, blockchain calls, verification, account management, auth.
+Data	MongoDB + Blockchain Testnet	Stores certificate metadata off-chain in MongoDB. Stores certificate hashes on-chain immutably.
+Intelligence	Python + Flask	Runs anomaly detection after every issuance. Exposes results to the backend via a REST API.
+
+5.1 Technology Choices
+What	Technology	Why
+Frontend	React.js	Well-documented, component-based, suitable for multi-role interfaces
+Backend	Node.js + Express	Lightweight, JavaScript-native, easy to connect to Ethers.js
+Database	MongoDB	Flexible schema, easy to query by student ID or certificate ID
+Blockchain	Ethereum / Polygon Testnet	Free testnet — no real cost. Standard platform with Solidity support.
+Smart Contracts	Solidity	The standard language for Ethereum. Good tooling via Remix IDE.
+Blockchain Client	Ethers.js	Connects Node.js backend to the smart contract
+Hashing	SHA-256	Cryptographically secure, deterministic, industry standard
+Anomaly Detection	Python + Scikit-learn	Rule-based checks are simple; Isolation Forest available if time allows
+AI Bridge	Flask	Lightweight Python API exposing anomaly detection to the backend
+Auth	JWT + bcrypt	Standard token authentication and secure password hashing
+
+
+6. Account Management Flow
+This section answers the question of how accounts are created and managed for each role. The flow below shows the relationship between the System Admin, the University Admin, and the Student — and how accounts move from one level to the next.
+
+
+Figure 2 — Account Management Flow
+
+6.1 Creating a University Admin Account — Step by Step
+    1. System Admin logs into the admin panel.
+    2. System Admin clicks 'Add University', enters the university name, and assigns a username and temporary password.
+    3. System Admin submits. The university admin account is created.
+    4. System Admin gives the credentials to the university admin contact.
+    5. University admin logs in. They can now issue certificates.
+
+6.2 How a Student Account Is Created — Step by Step
+    1. University admin issues a certificate by filling in the certificate details form.
+    2. When the certificate is successfully written to the blockchain, the system automatically creates a student account.
+    3. The student ID from the certificate becomes the student's username.
+    4. The system generates a temporary password and displays it to the university admin on the confirmation screen.
+    5. The university admin gives the username and temporary password to the student.
+    6. The student logs in. They are immediately forced to set a new password.
+    7. The student can now view their certificate record in the student portal.
+
+6.3 System Admin Capabilities
+    • Create university admin accounts — entering university name, username, and temporary password
+    • Deactivate any university admin account — a deactivated account cannot log in or issue certificates
+    • Reset any student's password — if a student cannot log in, the admin can generate a new temporary password
+    • View all registered accounts — university admins and students — in a simple management list
+    • View the anomaly dashboard — all flagged certificate events
+
+
+7. Certificate Issuance Flow
+This shows what happens when a university admin issues a certificate. Step 6 — the automatic creation of the student account — is new in this version and addresses the student authentication concern directly.
+
+
+Figure 3 — Certificate Issuance Flow
+
+7.1 Issuance Steps
+    1. University admin logs in using their credentials.
+    2. Admin enters all certificate details: student name, student ID, institution, qualification, date, and grade.
+    3. The backend computes a SHA-256 hash of all fields combined. Every field is included — not just the ID.
+    4. The hash is written to the Solidity smart contract on the blockchain testnet. This record is now permanent.
+    5. Certificate metadata is saved to MongoDB. Personal data stays off-chain.
+    6. The system automatically creates a student account using the student ID as the username and a generated temporary password.
+    7. A confirmation is shown to the admin including the certificate ID, transaction hash, and student credentials.
+    8. The anomaly detection module runs automatically in the background.
+
+The issuance is atomic. If the blockchain write in Step 4 fails, nothing is saved — neither the MongoDB record nor the student account. Both must succeed together.
+
+
+8. Certificate Verification Flow
+The verification page is public. Any employer can use it at any time without an account or a fee.
+
+
+Figure 4 — Certificate Verification Flow
+
+8.1 Verification Steps
+    1. Employer opens the public verification page on any browser.
+    2. Employer enters all certificate details exactly as they appear on the document: name, student ID, institution, qualification, date, and grade.
+    3. The system recomputes the SHA-256 hash from the submitted details.
+    4. The recomputed hash is compared against the hash stored on the blockchain.
+    5. If the hashes match: VALID — full certificate details are displayed. If they do not match: INVALID — a clear error message is shown.
+
+8.2 Why the Identity Concern Is Answered
+The employer enters every field — not just the certificate ID. The system recomputes the hash from all those fields. If a fraudster uses a borrowed certificate ID but their name is different, the hash will not match. INVALID is returned. The fraud fails. This is not a workaround — it is the natural result of full-content hashing built into the core design.
+
+
+9. Student Portal Flow
+The student portal is simple. It has one purpose: let a student see what certificate record was issued for them.
+
+9.1 Student Portal Steps
+    1. Student navigates to the student portal and enters their username (student ID) and password.
+    2. The system authenticates the student and retrieves their certificate record from MongoDB.
+    3. The student sees all their certificate details as recorded by their university.
+    4. If anything looks wrong — a misspelled name, an incorrect grade — the student contacts their university to investigate. The student cannot edit their own record.
+
+The student portal is read-only by design. Certificate records are written to the blockchain and cannot be changed after issuance. The student is a viewer of their record, not an editor.
+
+
+10. Anomaly Detection Flow
+The anomaly detection module runs automatically after every certificate issuance. It checks for three specific problems and alerts the System Admin if any are found.
+
+
+Figure 5 — Anomaly Detection Flow
+
+10.1 Three Checks
+Check 1 — Duplicate Hash
+After the hash is computed, the module checks whether an identical hash already exists on the blockchain. If it does, this is a duplicate issuance. The module blocks it and raises an alert. This prevents the same certificate being issued more than once.
+
+Check 2 — Rate Spike
+The module counts how many certificates one institution has issued in the last hour. If the count exceeds a set threshold — for example ten per hour — it flags the activity as a potential rate spike and alerts the admin. The exact threshold is set during testing using simulated data.
+
+Check 3 — Incomplete Record
+The module checks that every required field is present and makes sense. If any field is missing, empty, or logically inconsistent — for example a graduation date that falls before the enrolment date — the record is flagged and the issuance is blocked until the issue is corrected.
+
+All events, clean and flagged, are logged with a timestamp and outcome. Flagged records appear on the System Admin dashboard with a plain-English description of what was detected.
+
+
+11. Use Case Diagram
+The diagram below shows all four user roles and the actions they can perform within the system.
+
+
+Figure 6 — Use Case Diagram
+
+
+12. Data Flow Diagram
+The context diagram below shows what data flows between the external actors and the central system. Personal data stays in MongoDB. Only the certificate hash goes to the blockchain.
+
+
+Figure 7 — Data Flow Diagram (Level 0 Context)
+
+
+13. Functional Requirements
+Each requirement has an ID and a priority. Critical means the project is incomplete without it. High means it is an important deliverable. The requirements are kept short and testable — one clear statement each.
+
+13.1 Certificate Issuance
+ID	Requirement	Priority
+FR-ISS-01	University admin must authenticate before accessing the issuance form	Critical
+FR-ISS-02	The system must accept: student name, student ID, institution, qualification, date, grade	Critical
+FR-ISS-03	SHA-256 hash must be computed from ALL six fields combined	Critical
+FR-ISS-04	Hash must be stored on blockchain via smart contract	Critical
+FR-ISS-05	Certificate metadata must be stored in MongoDB — no personal data on-chain	Critical
+FR-ISS-06	A student account must be created automatically when a certificate is issued	Critical
+FR-ISS-07	Admin must see certificate ID, transaction hash, and student credentials on the confirmation screen	High
+FR-ISS-08	Issuance must be atomic — blockchain and MongoDB must both succeed or neither is saved	Critical
+FR-ISS-09	Every issuance must be logged with timestamp and admin account ID	High
+
+13.2 Certificate Verification
+ID	Requirement	Priority
+FR-VER-01	The verification page must be publicly accessible — no login required	Critical
+FR-VER-02	The employer must enter all six certificate fields to verify — not just the certificate ID	Critical
+FR-VER-03	System must recompute the hash from submitted fields and compare it to the blockchain record	Critical
+FR-VER-04	System must return a clear VALID or INVALID result	Critical
+FR-VER-05	VALID result must display: name, institution, qualification, date, grade	High
+FR-VER-06	INVALID result must display a clear message — no certificate details shown	Critical
+FR-VER-07	Result must be returned in under 5 seconds under normal conditions	High
+
+13.3 Student Portal
+ID	Requirement	Priority
+FR-STU-01	Students must authenticate using their student ID as username and their chosen password	Critical
+FR-STU-02	On first login, students must be forced to change their temporary password	Critical
+FR-STU-03	Students must be able to view their own certificate record after login	Critical
+FR-STU-04	The student portal must be read-only — students cannot edit any field	Critical
+FR-STU-05	The system must only show the record belonging to the authenticated student	Critical
+
+13.4 Account Management
+ID	Requirement	Priority
+FR-ACC-01	System admin must be able to create a university admin account from the admin panel	Critical
+FR-ACC-02	System admin must be able to deactivate any university admin account	High
+FR-ACC-03	System admin must be able to reset any student's password	High
+FR-ACC-04	System admin must be able to view a list of all university admin accounts and student accounts	High
+FR-ACC-05	No university or student can create their own account — all accounts are system-created or auto-created	Critical
+
+13.5 Anomaly Detection
+ID	Requirement	Priority
+FR-ANO-01	System must detect and block duplicate certificate submissions	High
+FR-ANO-02	System must flag and alert when an institution exceeds the issuance rate threshold	High
+FR-ANO-03	System must flag and block certificates with missing or inconsistent fields	High
+FR-ANO-04	Flagged anomalies must appear on the System Admin dashboard with a description	High
+FR-ANO-05	The anomaly module must run automatically — no manual trigger needed	High
+FR-ANO-06	All events — clean and flagged — must be logged with timestamp and outcome	High
+
+
+14. Non-Functional Requirements
+Category	Requirement	Target
+Performance	Verification result returned in under 5 seconds	Under 5 seconds
+Security	All data in transit encrypted	HTTPS / TLS 1.2+
+Security	Passwords stored as salted hashes	bcrypt
+Security	SHA-256 hash computed from all certificate fields — enforced by design	100% — no exceptions
+Privacy	No personal data stored on the public blockchain	Hashes only on-chain
+Reliability	Blockchain record permanently retrievable once written	100% — immutable
+Usability	Verification page usable by a non-technical employer	Task complete in under 2 minutes
+Usability	All error states show a clear, informative message	No silent failures
+Maintainability	Codebase commented and structured for readability	All functions documented
+
+
+15. Constraints and Limitations
+15.1 Constraints
+Constraint	Description
+Time	5 months, single student. Scope is deliberately kept small.
+Budget	No real blockchain costs. Ethereum or Polygon testnet used throughout.
+Data	No access to real university records. Simulated data used for all testing.
+
+15.2 What This System Does Not Do
+Being honest about limitations makes the project stronger, not weaker.
+
+    • It cannot prevent a corrupt university official from issuing a fraudulent but technically valid certificate. The blockchain stops tampering after issuance — it cannot control what is entered in the first place. This is a known limitation of all blockchain credential systems.
+    • It does not biometrically verify that the person presenting a certificate is the person it was issued to. Full-content hashing is the practical solution used here. Biometric extension is future work.
+    • It requires internet access. Issuance and verification both need connectivity to reach the blockchain testnet.
+    • It is a prototype evaluated on simulated data — not deployed at a real university.
+
+
+16. Evaluation Plan
+The evaluation will test five specific things. Every test uses a clear method and has a measurable target.
+
+What Is Tested	How	Target
+Verification speed	Time from submitting details to receiving result — measured 20 times	Under 5 seconds on average
+Tamper resistance	Manually change a field in MongoDB after issuance, then attempt verification	100% of tampered records return INVALID
+Identity borrowing	Use a valid certificate ID with different personal details and attempt verification	100% return INVALID
+Anomaly detection	Run the module against simulated normal and anomalous data sets	Precision above 80%
+Gas cost	Record testnet transaction cost per certificate issuance via Etherscan	Documented and discussed in report
+
+
+17. Project Timeline
+Month	Focus	Key Activities	Deliverables
+Month 1	Learn + Design	Solidity basics via CryptoZombies. Set up tools. Draw all system diagrams. Write and deploy smart contract on testnet.	Architecture diagram, flow diagrams, use case diagram, smart contract on Sepolia testnet
+Month 2	Backend	Node.js setup, MongoDB schema, SHA-256 hashing, Ethers.js blockchain connection, REST API endpoints for issue and verify, account management logic.	Working API with blockchain integration. Tamper test passing.
+Month 3	Frontend	React setup, university admin portal, public verification page, student portal, system admin panel. All connected to the backend.	Four working pages. Full end-to-end flow demonstrated.
+Month 4	Anomaly Detection	Python anomaly module — three checks. Flask API. Admin dashboard showing flags. Integration test.	Anomaly module working. Admin dashboard live. Full system tested.
+Month 5	Evaluation + Report	Run all evaluation tests. Write project report chapters 1–6.	Evaluation results documented. Final report submitted. System ready to demo.
+
+
+18. Expected Deliverables
+#	Deliverable	Description
+D1	Working Web Application	University admin portal, employer verification page, student portal, system admin panel — all connected and working together
+D2	Smart Contract on Testnet	Solidity smart contract deployed on Ethereum or Polygon Sepolia testnet — stores and retrieves certificate hashes
+D3	Anomaly Detection Module	Python-based module with three rule-based checks, exposed via Flask API, results shown on admin dashboard
+D4	System Design Documents	All seven diagrams included in this PRD: architecture, account management, issuance, verification, anomaly, use case, data flow
+D5	Evaluation Report	Verification speed, tamper resistance, identity borrowing test, anomaly accuracy, gas cost — all measured and documented
+D6	Final Project Report	Complete academic report: literature review, methodology, design, implementation, evaluation, conclusion
+
+
+19. Acceptance Criteria
+The project is complete when all of the following can be demonstrated live.
+
+#	Criterion	How to Test
+AC-01	University admin can log in and issue a certificate that is recorded on the blockchain	Live demonstration
+AC-02	System automatically creates a student account when a certificate is issued	Check MongoDB after issuance for student account record
+AC-03	Student can log in with the auto-created credentials and view their certificate	Live demonstration
+AC-04	Student is forced to change temporary password on first login	First login test
+AC-05	Employer can verify a genuine certificate and receive VALID in under 5 seconds	Timed live test
+AC-06	A tampered certificate returns INVALID	Manually alter a field then verify
+AC-07	Using a borrowed certificate ID with different personal details returns INVALID	Identity borrowing test
+AC-08	A duplicate issuance is detected and blocked	Submit same certificate twice
+AC-09	System Admin can create, deactivate, and reset passwords for accounts	Admin panel demonstration
+AC-10	Final project report submitted	Report submission
+
+End of Product Requirements Document  —  Version 1.0
+This document is subject to revision. All changes must be approved by the project supervisor.
