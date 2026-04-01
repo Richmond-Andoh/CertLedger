@@ -1,0 +1,267 @@
+{
+	"info": {
+		"_postman_id": "certledger-api-collection",
+		"name": "CertLedger API",
+		"description": "Complete API testing collection for CertLedger blockchain certificate system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": ["{{base_url}}"],
+					"path": ["health"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"testuser123\",\n  \"password\": \"password123\",\n  \"role\": \"student\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/auth/register",
+					"host": ["{{base_url}}"],
+					"path": ["api", "auth", "register"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Student",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"student123\",\n  \"password\": \"password123\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/auth/login",
+					"host": ["{{base_url}}"],
+					"path": ["api", "auth", "login"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Admin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/auth/login",
+					"host": ["{{base_url}}"],
+					"path": ["api", "auth", "login"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login System Admin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"sysadmin\",\n  \"password\": \"sysadmin123\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/auth/login",
+					"host": ["{{base_url}}"],
+					"path": ["api", "auth", "login"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Issue Certificate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{admin_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"studentName\": \"John Doe\",\n  \"studentId\": \"STU001\",\n  \"institution\": \"Test University\",\n  \"qualification\": \"Computer Science\",\n  \"issueDate\": \"2024-01-15\",\n  \"grade\": \"First Class\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/certificates/issue",
+					"host": ["{{base_url}}"],
+					"path": ["api", "certificates", "issue"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify Certificate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"studentName\": \"John Doe\",\n  \"studentId\": \"STU001\",\n  \"institution\": \"Test University\",\n  \"qualification\": \"Computer Science\",\n  \"issueDate\": \"2024-01-15\",\n  \"grade\": \"First Class\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/certificates/verify",
+					"host": ["{{base_url}}"],
+					"path": ["api", "certificates", "verify"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Certificate Details",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{student_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/certificates/details/STU001",
+					"host": ["{{base_url}}"],
+					"path": ["api", "certificates", "details", "STU001"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authorize Issuer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{sysadmin_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"institution\": \"Test University\",\n  \"address\": \"0x1234567890abcdef\",\n  \"role\": \"admin\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/admin/authorize-issuer",
+					"host": ["{{base_url}}"],
+					"path": ["api", "admin", "authorize-issuer"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Admin Dashboard",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{sysadmin_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/admin/dashboard",
+					"host": ["{{base_url}}"],
+					"path": ["api", "admin", "dashboard"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{sysadmin_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/admin/users?page=1&limit=10",
+					"host": ["{{base_url}}"],
+					"path": ["api", "admin", "users"],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000"
+		},
+		{
+			"key": "student_token",
+			"value": ""
+		},
+		{
+			"key": "admin_token",
+			"value": ""
+		},
+		{
+			"key": "sysadmin_token",
+			"value": ""
+		}
+	]
+}

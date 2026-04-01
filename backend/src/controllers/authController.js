@@ -86,8 +86,11 @@ const loginUser = async (req, res) => {
       });
     }
 
-    // Find user
-    const user = await User.findByUsername(username);
+    // Find user with password field
+    const user = await User.findOne({ 
+      username: username.toLowerCase(), 
+      isActive: true 
+    }).select('+password');
     if (!user) {
       return res.status(401).json({
         error: 'Authentication Failed',

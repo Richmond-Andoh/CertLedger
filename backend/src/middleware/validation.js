@@ -122,14 +122,10 @@ const validateUserLogin = [
   body('username')
     .notEmpty()
     .withMessage('Username is required')
-    .isLength({ min: 3, max: 50 })
-    .withMessage('Username must be between 3 and 50 characters')
     .trim(),
   body('password')
     .notEmpty()
     .withMessage('Password is required')
-    .isLength({ min: 8, max: 128 })
-    .withMessage('Password must be between 8 and 128 characters')
     .trim()
 ];
 
@@ -173,20 +169,20 @@ const validateRequest = (validationRules) => {
     const errors = validationResult(req);
     
     if (!errors.isEmpty()) {
-      return next();
+      const formattedErrors = errors.array().map(error => ({
+        field: error.param,
+        message: error.msg,
+        value: error.value
+      }));
+      
+      return res.status(400).json({
+        error: 'Validation Error',
+        message: 'Request validation failed',
+        details: formattedErrors
+      });
     }
     
-    const formattedErrors = errors.array().map(error => ({
-      field: error.param,
-      message: error.msg,
-      value: error.value
-    }));
-    
-    return res.status(400).json({
-      error: 'Validation Error',
-      message: 'Request validation failed',
-      details: formattedErrors
-    });
+    next();
   };
 };
 

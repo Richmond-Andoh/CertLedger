@@ -115,8 +115,15 @@ userSchema.statics.findByRole = function(role) {
 // Instance methods
 userSchema.methods.comparePassword = async function(candidatePassword) {
   try {
+    if (!this.password) {
+      throw new Error('Password field is not selected or is undefined');
+    }
+    if (!candidatePassword) {
+      throw new Error('Candidate password is undefined');
+    }
     return await bcrypt.compare(candidatePassword, this.password);
   } catch (error) {
+    console.error('Password comparison error:', error.message);
     throw error;
   }
 };
