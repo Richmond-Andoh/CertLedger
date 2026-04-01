@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Lock, Eye, EyeOff, GraduationCap } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { authService } from '../services/api';
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    username: '',
+    identity: '', // Email or Username 
     password: ''
   });
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedRole, setSelectedRole] = useState('student');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -26,8 +23,10 @@ const Login = () => {
     setIsLoading(true);
 
     try {
+      // Backend expects { username, password }
+      // The design uses "identity" for either.
       const response = await authService.login({
-        username: formData.username,
+        username: formData.identity,
         password: formData.password
       });
 
@@ -35,15 +34,7 @@ const Login = () => {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
         
-        toast.success(`Welcome back, ${response.data.user.username}!`, {
-          duration: 4000,
-          style: {
-            background: 'rgba(0, 0, 0, 0.8)',
-            color: '#fff',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            backdropFilter: 'blur(10px)',
-          },
-        });
+        toast.success(`Welcome back, ${response.data.user.username}!`);
 
         // Navigate based on role
         switch (response.data.user.role) {
@@ -59,142 +50,169 @@ const Login = () => {
           default:
             navigate('/dashboard');
         }
-      } else {
-        toast.error(response.data.message || 'Login failed', {
-          duration: 4000,
-          style: {
-            background: 'rgba(239, 68, 68, 0.8)',
-            color: '#fff',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            backdropFilter: 'blur(10px)',
-          },
-        });
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Network error. Please try again.', {
-        duration: 4000,
-        style: {
-          background: 'rgba(239, 68, 68, 0.8)',
-          color: '#fff',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          backdropFilter: 'blur(10px)',
-        },
-      });
+      toast.error(error.response?.data?.message || 'Authentication failed. Please check your credentials.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 p-4">
-      <div className="max-w-md w-full space-y-8">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <div className="flex justify-center">
-            <GraduationCap className="h-12 w-12 text-white" />
+    <div className="bg-primary-container min-h-screen flex flex-col items-center justify-center p-6 selection:bg-secondary-fixed selection:text-on-secondary-fixed relative overflow-hidden">
+      {/* Abstract Background Texture */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none opacity-20">
+        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-secondary rounded-full blur-[120px]"></div>
+        <div className="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] bg-surface-tint rounded-full blur-[150px]"></div>
+      </div>
+
+      {/* Login Container */}
+      <main className="relative z-10 w-full max-w-md flex flex-col items-center">
+        {/* Branding Header */}
+        <div className="mb-10 text-center">
+          <div className="mb-6 flex justify-center">
+            <div className="w-20 h-20 bg-surface-container-lowest rounded-xl flex items-center justify-center shadow-2xl shadow-black/40">
+              <span className="material-symbols-outlined text-secondary text-5xl">account_balance</span>
+            </div>
           </div>
-          <h1 className="text-3xl font-bold text-white">CertLedger</h1>
-          <p className="text-gray-300">Blockchain Certificate Verification System</p>
+          <h1 className="text-secondary text-3xl font-extrabold tracking-tighter uppercase mb-1">
+            Certificate Verification System
+          </h1>
+          <p className="text-on-primary-container font-medium tracking-wide text-sm">
+            Powered by Blockchain
+          </p>
         </div>
 
-        {/* Login Form */}
-        <div className="glass-morphism rounded-2xl p-8 space-y-6">
+        {/* Login Card */}
+        <section className="w-full bg-surface-container-lowest rounded-xl p-10 shadow-2xl shadow-black/50">
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Username Input */}
-            <div className="space-y-2">
-              <label htmlFor="username" className="text-sm font-medium text-gray-200">
-                Username
+            {/* Identity Field */}
+            <div>
+              <label 
+                className="block text-[10px] font-semibold text-on-surface-variant uppercase tracking-widest mb-2 px-1" 
+                htmlFor="identity"
+              >
+                Institutional Identity
               </label>
-              <div className="relative">
-                <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                <input
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <span className="material-symbols-outlined text-outline text-xl group-focus-within:text-secondary transition-colors">
+                    alternate_email
+                  </span>
+                </div>
+                <input 
+                  className="block w-full pl-11 pr-4 py-3.5 bg-surface-container-highest border-none rounded-lg text-on-surface placeholder:text-outline focus:ring-2 focus:ring-surface-tint focus:bg-white transition-all text-sm font-medium" 
+                  id="identity" 
+                  name="identity" 
+                  placeholder="Email or Username" 
                   type="text"
-                  id="username"
-                  name="username"
-                  value={formData.username}
+                  value={formData.identity}
                   onChange={handleChange}
-                  className="input-glass pl-10"
-                  placeholder="Enter your username"
                   required
                 />
               </div>
             </div>
 
-            {/* Password Input */}
-            <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium text-gray-200">
-                Password
+            {/* Password Field */}
+            <div>
+              <label 
+                className="block text-[10px] font-semibold text-on-surface-variant uppercase tracking-widest mb-2 px-1" 
+                htmlFor="password"
+              >
+                Security Credential
               </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  id="password"
-                  name="password"
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <span className="material-symbols-outlined text-outline text-xl group-focus-within:text-secondary transition-colors">
+                    lock
+                  </span>
+                </div>
+                <input 
+                  className="block w-full pl-11 pr-4 py-3.5 bg-surface-container-highest border-none rounded-lg text-on-surface placeholder:text-outline focus:ring-2 focus:ring-surface-tint focus:bg-white transition-all text-sm font-medium" 
+                  id="password" 
+                  name="password" 
+                  placeholder="••••••••" 
+                  type="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="input-glass pl-10 pr-10"
-                  placeholder="Enter your password"
                   required
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-gray-400 hover:text-white transition-colors"
-                >
-                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                </button>
               </div>
             </div>
 
-            {/* Login Button */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="btn-primary w-full flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  <span>Signing in...</span>
-                </>
-              ) : (
-                <span>Sign In</span>
-              )}
-            </button>
+            {/* Action Button */}
+            <div className="pt-2">
+              <button 
+                className="w-full bg-secondary text-on-secondary font-bold py-4 rounded-lg flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all duration-200 shadow-lg shadow-secondary/20 group disabled:opacity-70 disabled:cursor-not-allowed" 
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-on-secondary"></div>
+                    <span>Authenticating...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Log In</span>
+                    <span className="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">
+                      login
+                    </span>
+                  </>
+                )}
+              </button>
+            </div>
           </form>
 
-          {/* Role Information */}
-          <div className="text-center space-y-2">
-            <p className="text-sm text-gray-400">
-              Select your role for demo:
-            </p>
-            <div className="flex justify-center space-x-2">
-              {['student', 'university_admin', 'system_admin'].map((role) => (
-                <button
-                  key={role}
-                  onClick={() => setSelectedRole(role)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
-                    selectedRole === role
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-white/10 text-gray-300 hover:bg-white/20'
-                  }`}
-                >
-                  {role.replace('_', ' ').toUpperCase()}
-                </button>
-              ))}
-            </div>
-            <div className="text-xs text-gray-500 space-y-1">
-              <p><strong>Student:</strong> student123 / password123</p>
-              <p><strong>Admin:</strong> admin / admin123</p>
-              <p><strong>System Admin:</strong> sysadmin / sysadmin123</p>
+          {/* Role Indicator */}
+          <div className="mt-8 pt-8 border-t border-surface-container-highest">
+            <div className="flex justify-between items-center px-2">
+              <div className="flex items-center gap-2 opacity-60">
+                <span className="material-symbols-outlined text-sm">shield_person</span>
+                <span className="text-[10px] font-bold uppercase tracking-tight text-on-surface-variant">Admin Access</span>
+              </div>
+              <div className="flex items-center gap-2 opacity-60">
+                <span className="material-symbols-outlined text-sm">school</span>
+                <span className="text-[10px] font-bold uppercase tracking-tight text-on-surface-variant">Student Portal</span>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Footer */}
-        <div className="text-center text-sm text-gray-400">
-          <p>Secure blockchain-powered certificate verification</p>
+        {/* Employer Redirect */}
+        <footer className="mt-10 w-full">
+          <button 
+            className="w-full group flex items-center justify-center gap-2 py-4 px-6 rounded-xl glass-effect hover:bg-surface-container-lowest/20 transition-all duration-300" 
+            onClick={() => navigate('/verify')}
+          >
+            <span className="text-on-primary-container text-xs font-semibold tracking-wide">
+              Employer? <span className="text-secondary-fixed">Verify a certificate here</span>
+            </span>
+            <span className="material-symbols-outlined text-secondary-fixed text-lg group-hover:translate-x-2 transition-transform">
+              arrow_forward
+            </span>
+          </button>
+        </footer>
+
+        {/* Bottom Legal Text */}
+        <div className="mt-12 text-center space-y-2 opacity-40">
+          <p className="text-[10px] font-medium text-on-primary-container uppercase tracking-widest leading-relaxed">
+            © 2024 Academic Ledger Technologies.<br/>
+            Ghanaian Institutional Integrity Protocol.
+          </p>
+        </div>
+      </main>
+
+      {/* Visual Anchor: Secure Seal */}
+      <div className="fixed bottom-8 right-8 hidden lg:block">
+        <div className="flex flex-col items-end">
+          <div className="bg-secondary p-4 rounded-full shadow-2xl shadow-black/50 mb-2">
+            <span className="material-symbols-outlined text-on-secondary text-3xl">verified</span>
+          </div>
+          <div className="text-right">
+            <p className="text-[9px] font-black text-secondary uppercase tracking-[0.2em]">Validated Node</p>
+            <p className="text-[8px] font-medium text-on-primary-container opacity-50 font-mono">GH-SYS-8821-X</p>
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, Calendar, Award, User, Building, CheckCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { certificateService } from '../services/api';
 
@@ -7,366 +7,211 @@ const IssueCertificate = () => {
   const [formData, setFormData] = useState({
     studentName: '',
     studentId: '',
-    institution: '',
     qualification: '',
+    grade: '',
     issueDate: '',
-    grade: 'First Class'
   });
-  const [isIssuing, setIsIssuing] = useState(false);
-  const [issuedCertificate, setIssuedCertificate] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsIssuing(true);
+    setLoading(true);
 
     try {
       const response = await certificateService.issue(formData);
-      
       if (response.data.success) {
-        setIssuedCertificate({
-          ...formData,
-          transactionHash: response.data.transactionHash,
-          blockNumber: response.data.blockNumber,
-          studentCredentials: response.data.studentCredentials
-        });
-
-        toast.success('Certificate issued successfully!', {
+        toast.success('Certificate anchored to blockchain successfully!', {
           duration: 5000,
-          style: {
-            background: 'rgba(34, 197, 94, 0.8)',
-            color: '#fff',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            backdropFilter: 'blur(10px)',
-          },
+          icon: '🛡️',
         });
-      } else {
-        toast.error(response.data.message || 'Failed to issue certificate', {
-          duration: 4000,
-          style: {
-            background: 'rgba(239, 68, 68, 0.8)',
-            color: '#fff',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            backdropFilter: 'blur(10px)',
-          },
-        });
+        navigate('/dashboard');
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to issue certificate', {
-        duration: 4000,
-        style: {
-          background: 'rgba(239, 68, 68, 0.8)',
-          color: '#fff',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          backdropFilter: 'blur(10px)',
-        },
-      });
+      toast.error(error.response?.data?.message || 'Failed to issue certificate. Protocol error.');
     } finally {
-      setIsIssuing(false);
+      setLoading(false);
     }
   };
 
-  const resetForm = () => {
-    setFormData({
-      studentName: '',
-      studentId: '',
-      institution: '',
-      qualification: '',
-      issueDate: '',
-      grade: 'First Class'
-    });
-    setIssuedCertificate(null);
-  };
-
-  const getGradeOptions = () => [
-    'First Class',
-    'Second Class Upper',
-    'Second Class Lower',
-    'Third Class',
-    'Pass',
-    'Distinction',
-    'Merit'
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 p-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            <FileText className="h-12 w-12 text-green-400" />
-          </div>
-          <h1 className="text-4xl font-bold text-white mb-2">Issue Certificate</h1>
-          <p className="text-gray-300 text-lg">
-            Issue new academic certificates on the blockchain
+    <div className="max-w-4xl mx-auto">
+      {/* Page Header */}
+      <div className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+        <div className="space-y-4">
+          <h1 className="text-4xl font-extrabold tracking-tight text-on-surface uppercase">Issue New Certificate</h1>
+          <p className="text-on-surface-variant max-w-lg text-lg leading-relaxed font-medium italic">
+            Initiate a cryptographic record for an academic qualification. This action is <span className="text-secondary font-bold">irreversible</span> once committed to the blockchain.
           </p>
         </div>
+        <div className="flex gap-3 items-center bg-surface-container-highest px-6 py-3 rounded-xl border border-outline-variant/30 shadow-sm">
+          <span className="material-symbols-outlined text-secondary text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Auth Station</span>
+            <span className="text-xs font-bold text-on-surface uppercase">Registrar Node</span>
+          </div>
+        </div>
+      </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Certificate Form */}
-          <div className="glass-morphism rounded-2xl p-8">
-            <h2 className="text-2xl font-semibold text-white mb-6 flex items-center">
-              <Award className="h-6 w-6 mr-2 text-green-400" />
-              Certificate Information
-            </h2>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Student Name */}
-              <div className="space-y-2">
-                <label htmlFor="studentName" className="block text-sm font-medium text-gray-200 mb-2">
-                  Student Name *
-                </label>
-                <div className="relative">
-                  <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                  <input
-                    type="text"
-                    id="studentName"
-                    name="studentName"
-                    value={formData.studentName}
-                    onChange={handleChange}
-                    className="input-glass pl-10"
-                    placeholder="Enter student's full name"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Student ID */}
-              <div className="space-y-2">
-                <label htmlFor="studentId" className="block text-sm font-medium text-gray-200 mb-2">
-                  Student ID *
-                </label>
-                <input
+      {/* Form Card */}
+      <div className="bg-surface-container-lowest rounded-2xl shadow-2xl shadow-black/5 border border-outline-variant/10 overflow-hidden">
+        <form onSubmit={handleSubmit}>
+          <div className="p-12 space-y-10">
+            {/* Section: Student Information */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              <div className="space-y-3">
+                <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.2em] ml-1">Student Full Name</label>
+                <input 
+                  required
+                  name="studentName"
+                  value={formData.studentName}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 border-2 border-transparent rounded-xl px-5 py-4 text-on-surface font-bold focus:border-secondary focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 shadow-inner" 
+                  placeholder="e.g. Kwame Mensah" 
                   type="text"
-                  id="studentId"
+                />
+              </div>
+              <div className="space-y-3">
+                <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.2em] ml-1">Student ID Number</label>
+                <input 
+                  required
                   name="studentId"
                   value={formData.studentId}
                   onChange={handleChange}
-                  className="input-glass"
-                  placeholder="Enter unique student ID"
-                  required
-                />
-              </div>
-
-              {/* Institution */}
-              <div className="space-y-2">
-                <label htmlFor="institution" className="block text-sm font-medium text-gray-200 mb-2">
-                  Institution *
-                </label>
-                <div className="relative">
-                  <Building className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                  <input
-                    type="text"
-                    id="institution"
-                    name="institution"
-                    value={formData.institution}
-                    onChange={handleChange}
-                    className="input-glass pl-10"
-                    placeholder="Enter institution name"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Qualification */}
-              <div className="space-y-2">
-                <label htmlFor="qualification" className="block text-sm font-medium text-gray-200 mb-2">
-                  Qualification *
-                </label>
-                <input
+                  className="w-full bg-slate-50 border-2 border-transparent rounded-xl px-5 py-4 text-on-surface font-bold focus:border-secondary focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 shadow-inner" 
+                  placeholder="UG-2024-XXXX" 
                   type="text"
-                  id="qualification"
-                  name="qualification"
-                  value={formData.qualification}
-                  onChange={handleChange}
-                  className="input-glass"
-                  placeholder="Enter qualification title"
-                  required
                 />
               </div>
+            </div>
 
-              {/* Issue Date */}
-              <div className="space-y-2">
-                <label htmlFor="issueDate" className="block text-sm font-medium text-gray-200 mb-2">
-                  Issue Date *
-                </label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                  <input
-                    type="date"
-                    id="issueDate"
-                    name="issueDate"
-                    value={formData.issueDate}
-                    onChange={handleChange}
-                    className="input-glass pl-10"
-                    required
-                  />
+            {/* Section: Institution (Read Only) */}
+            <div className="space-y-3">
+              <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.2em] ml-1">Issuing Authority</label>
+              <div className="w-full bg-primary-container/95 text-white font-black rounded-xl px-6 py-4 flex items-center justify-between shadow-xl shadow-blue-900/10 transition-transform hover:scale-[1.01]">
+                <div className="flex items-center gap-4">
+                   <span className="material-symbols-outlined text-secondary animate-pulse" style={{ fontVariationSettings: "'FILL' 1" }}>lock_person</span>
+                   <span className="uppercase tracking-widest text-sm">{user?.institution || 'Global Academic Ledger'}</span>
                 </div>
+                <span className="text-[10px] opacity-40 font-mono hidden sm:block">NODE_SYNCED_2024_GH</span>
               </div>
+            </div>
 
-              {/* Grade */}
-              <div className="space-y-2">
-                <label htmlFor="grade" className="block text-sm font-medium text-gray-200 mb-2">
-                  Grade *
-                </label>
-                <select
-                  id="grade"
+            {/* Section: Qualification */}
+            <div className="space-y-3">
+              <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.2em] ml-1">Qualification Title</label>
+              <input 
+                required
+                name="qualification"
+                value={formData.qualification}
+                onChange={handleChange}
+                className="w-full bg-slate-50 border-2 border-transparent rounded-xl px-5 py-4 text-on-surface font-bold focus:border-secondary focus:bg-white focus:ring-0 transition-all placeholder:text-slate-300 shadow-inner" 
+                placeholder="e.g. BSc Computer Science" 
+                type="text"
+              />
+            </div>
+
+            {/* Section: Metrics Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              <div className="space-y-3">
+                <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.2em] ml-1">Date of Award</label>
+                <input 
+                  required
+                  name="issueDate"
+                  value={formData.issueDate}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 border-2 border-transparent rounded-xl px-5 py-4 text-on-surface font-bold focus:border-secondary focus:bg-white focus:ring-0 transition-all shadow-inner" 
+                  type="date"
+                />
+              </div>
+              <div className="space-y-3">
+                <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.2em] ml-1">Classification / Grade</label>
+                <select 
+                  required
                   name="grade"
                   value={formData.grade}
                   onChange={handleChange}
-                  className="input-glass"
-                  required
+                  className="w-full bg-slate-50 border-2 border-transparent rounded-xl px-5 py-4 text-on-surface font-bold focus:border-secondary focus:bg-white focus:ring-0 transition-all shadow-inner appearance-none cursor-pointer"
                 >
-                  {getGradeOptions().map((grade) => (
-                    <option key={grade} value={grade}>
-                      {grade}
-                    </option>
-                  ))}
+                  <option disabled value="">Select classification</option>
+                  <option value="First Class">First Class Honours</option>
+                  <option value="Second Class Upper">Second Class Upper</option>
+                  <option value="Second Class Lower">Second Class Lower</option>
+                  <option value="Third Class">Third Class</option>
+                  <option value="Pass">Pass</option>
+                  <option value="Distinction">Distinction</option>
+                  <option value="Merit">Merit</option>
                 </select>
               </div>
+            </div>
 
-              {/* Buttons */}
-              <div className="flex space-x-4">
-                <button
-                  type="submit"
-                  disabled={isIssuing}
-                  className="btn-primary flex-1 flex items-center justify-center"
-                >
-                  {isIssuing ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      <span>Issuing...</span>
-                    </>
-                  ) : (
-                    <>
-                      <CheckCircle className="h-4 w-4 mr-2" />
-                      <span>Issue Certificate</span>
-                    </>
-                  )}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={resetForm}
-                  className="btn-secondary"
-                >
-                  Clear Form
-                </button>
+            {/* Info Message */}
+            <div className="bg-slate-900 p-6 rounded-2xl flex gap-5 items-start border border-white/5 shadow-2xl">
+              <div className="p-2 bg-amber-500 rounded-lg">
+                <span className="material-symbols-outlined text-slate-900" style={{ fontVariationSettings: "'FILL' 1" }}>policy</span>
               </div>
-            </form>
+              <p className="text-xs font-medium text-slate-400 leading-relaxed italic">
+                A <span className="text-white font-bold">SHA-256 cryptographic hash</span> of the identity and academic metadata will be anchored to the blockchain. A student account will be provisioned automatically, allowing the recipient to claim these digital credentials via their private key.
+              </p>
+            </div>
           </div>
 
-          {/* Success Result */}
-          {issuedCertificate && (
-            <div className="glass-morphism rounded-2xl p-8">
-              <h2 className="text-2xl font-semibold text-white mb-6 flex items-center">
-                <CheckCircle className="h-6 w-6 mr-2 text-green-400" />
-                Certificate Issued Successfully
-              </h2>
+          {/* Action Bar */}
+          <div className="bg-slate-50 px-12 py-8 flex flex-col sm:flex-row justify-end gap-6 items-center border-t border-outline-variant/30">
+            <button 
+              type="button"
+              className="w-full sm:w-auto px-10 py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] text-slate-500 border-2 border-slate-200 hover:border-slate-400 hover:text-slate-700 transition-all active:scale-95 bg-white"
+              onClick={() => navigate('/dashboard')}
+            >
+              Cancel Transaction
+            </button>
+            <button 
+              type="submit"
+              disabled={loading}
+              className={`
+                w-full sm:w-auto flex items-center justify-center gap-3 px-12 py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em]
+                bg-slate-900 text-amber-500 shadow-2xl shadow-black/40 hover:scale-[1.03] active:scale-95 transition-all
+                ${loading ? 'opacity-50 cursor-not-allowed' : ''}
+              `}
+            >
+              {loading ? (
+                <div className="animate-spin h-4 w-4 border-2 border-amber-500 border-t-transparent rounded-full font-black"></div>
+              ) : (
+                <span className="material-symbols-outlined text-xl">account_balance_wallet</span>
+              )}
+              {loading ? 'Mining Record...' : 'Securely Issue Credential'}
+            </button>
+          </div>
+        </form>
+      </div>
 
-              <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-6">
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-lg font-semibold text-green-300 mb-2">Certificate Details</h3>
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <span className="text-gray-400">Student:</span>
-                        <p className="text-white font-medium">{issuedCertificate.studentName}</p>
-                      </div>
-                      <div>
-                        <span className="text-gray-400">ID:</span>
-                        <p className="text-white font-medium">{issuedCertificate.studentId}</p>
-                      </div>
-                      <div>
-                        <span className="text-gray-400">Institution:</span>
-                        <p className="text-white font-medium">{issuedCertificate.institution}</p>
-                      </div>
-                      <div>
-                        <span className="text-gray-400">Qualification:</span>
-                        <p className="text-white font-medium">{issuedCertificate.qualification}</p>
-                      </div>
-                      <div>
-                        <span className="text-gray-400">Grade:</span>
-                        <p className="text-white font-medium">{issuedCertificate.grade}</p>
-                      </div>
-                      <div>
-                        <span className="text-gray-400">Issue Date:</span>
-                        <p className="text-white font-medium">{issuedCertificate.issueDate}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="border-t border-green-500/30 pt-4">
-                    <h3 className="text-lg font-semibold text-green-300 mb-2">Blockchain Information</h3>
-                    <div className="space-y-2 text-sm">
-                      <div>
-                        <span className="text-gray-400">Transaction Hash:</span>
-                        <p className="text-white font-mono text-xs break-all">{issuedCertificate.transactionHash}</p>
-                      </div>
-                      <div>
-                        <span className="text-gray-400">Block Number:</span>
-                        <p className="text-white font-medium">{issuedCertificate.blockNumber}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {issuedCertificate.studentCredentials && (
-                    <div className="border-t border-green-500/30 pt-4">
-                      <h3 className="text-lg font-semibold text-green-300 mb-2">Student Account Created</h3>
-                      <div className="bg-yellow-500/20 border border-yellow-500/30 rounded-lg p-4">
-                        <div className="space-y-2 text-sm">
-                          <div>
-                            <span className="text-gray-400">Username:</span>
-                            <p className="text-white font-medium">{issuedCertificate.studentCredentials.username}</p>
-                          </div>
-                          <div>
-                            <span className="text-gray-400">Temporary Password:</span>
-                            <p className="text-white font-medium">{issuedCertificate.studentCredentials.temporaryPassword}</p>
-                          </div>
-                          <div className="text-yellow-300 text-xs mt-2">
-                            <strong>Important:</strong> Student should change password on first login
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex space-x-4 mt-6">
-                  <button
-                    onClick={resetForm}
-                    className="btn-secondary"
-                  >
-                    Issue Another Certificate
-                  </button>
-                  
-                  <button
-                    className="btn-primary"
-                    onClick={() => {
-                      toast.info('Print feature coming soon!', {
-                        duration: 3000,
-                        style: {
-                          background: 'rgba(34, 197, 94, 0.8)',
-                          color: '#fff',
-                          border: '1px solid rgba(255, 255, 255, 0.2)',
-                          backdropFilter: 'blur(10px)',
-                        },
-                      });
-                    }}
-                  >
-                    Print Certificate
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
+      {/* Trust Badges */}
+      <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-12 opacity-80">
+        <div className="space-y-4 text-center md:text-left group">
+          <div className="w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center mx-auto md:mx-0 group-hover:scale-110 transition-transform">
+             <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>hub</span>
+          </div>
+          <h3 className="text-xs font-black uppercase tracking-[0.2em] text-on-surface">Immutable Storage</h3>
+          <p className="text-[10px] font-medium text-on-surface-variant leading-relaxed">Records are anchored using cryptographic proofs that cannot be altered or deleted by any institutional node.</p>
+        </div>
+        <div className="space-y-4 text-center md:text-left group">
+          <div className="w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center mx-auto md:mx-0 group-hover:scale-110 transition-transform">
+             <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>history_edu</span>
+          </div>
+          <h3 className="text-xs font-black uppercase tracking-[0.2em] text-on-surface">Instant Verification</h3>
+          <p className="text-[10px] font-medium text-on-surface-variant leading-relaxed">Global administrative nodes and employers can verify this hash instantly via the secure verification proxy.</p>
+        </div>
+        <div className="space-y-4 text-center md:text-left group">
+          <div className="w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center mx-auto md:mx-0 group-hover:scale-110 transition-transform">
+             <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>public</span>
+          </div>
+          <h3 className="text-xs font-black uppercase tracking-[0.2em] text-on-surface">Global Utility</h3>
+          <p className="text-[10px] font-medium text-on-surface-variant leading-relaxed">Compliant with the Ghanaian Digital Identity Framework and international W3C Verifiable Credentials standards.</p>
         </div>
       </div>
     </div>
