@@ -65,8 +65,10 @@ export const certificateService = {
 export const adminService = {
   authorizeIssuer: (issuerData) => api.post('/admin/authorize-issuer', issuerData),
   deauthorizeIssuer: (issuerData) => api.post('/admin/deauthorize-issuer', issuerData),
-  resetStudentPassword: (studentData) => api.post('/admin/reset-student-password', studentData),
+  resetPassword: (userData) => api.post('/admin/reset-password', userData),
   getUsers: (params) => api.get('/admin/users', { params }),
+  toggleUserStatus: (userId) => api.patch(`/admin/toggle-status/${userId}`),
+  deleteUser: (userId) => api.delete(`/admin/user/${userId}`),
   getAnomalies: (params) => api.get('/admin/anomalies', { params }),
   getDashboardStats: () => api.get('/admin/dashboard'),
 };

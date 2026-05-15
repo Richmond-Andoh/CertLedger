@@ -36,7 +36,7 @@ function App() {
           
           {/* Protected Routes - Shared */}
           <Route 
-            path="/change-password" 
+            path="/change-password"
             element={
               <ProtectedRoute allowedRoles={['university_admin', 'student', 'system_admin']}>
                 <ChangePassword />

@@ -135,40 +135,37 @@ const deauthorizeIssuer = async (req, res) => {
   }
 };
 
-// Reset Student Password
-const resetStudentPassword = async (req, res) => {
+// Reset User Password
+const resetUserPassword = async (req, res) => {
   try {
-    const { studentId } = req.body;
+    const { userId } = req.body;
     
     // Only system admin can reset passwords
     if (req.user.role !== 'system_admin') {
       return res.status(403).json({
         error: 'Access Denied',
-        message: 'Only system admin can reset student passwords'
+        message: 'Only system admin can reset passwords'
       });
     }
 
     // Validation
-    if (!studentId) {
+    if (!userId) {
       return res.status(400).json({
         error: 'Validation Error',
-        message: 'Student ID is required'
+        message: 'User ID is required'
       });
     }
 
-    // Find student
-    const student = await User.findByUsername(studentId);
-    if (!student) {
+    // Find user by ID or username
+    let user = await User.findById(userId);
+    if (!user) {
+      user = await User.findOne({ username: userId });
+    }
+
+    if (!user) {
       return res.status(404).json({
         error: 'User Not Found',
-        message: 'Student not found'
-      });
-    }
-
-    if (student.role !== 'student') {
-      return res.status(400).json({
-        error: 'Validation Error',
-        message: 'User is not a student'
+        message: 'User not found'
       });
     }
 
@@ -181,23 +178,23 @@ const resetStudentPassword = async (req, res) => {
     }
 
     // Update password
-    student.password = newPassword; // Will be hashed by pre-save middleware
-    await student.save();
+    user.password = newPassword; // Will be hashed by pre-save middleware
+    await user.save();
 
     res.status(200).json({
       success: true,
-      message: 'Student password reset successfully',
+      message: 'Password reset successfully',
       data: {
-        username: student.username,
+        username: user.username,
         temporaryPassword: newPassword
       }
     });
 
   } catch (error) {
-    console.error('Reset student password error:', error);
+    console.error('Reset user password error:', error);
     res.status(500).json({
       error: 'Internal Server Error',
-      message: 'Failed to reset student password'
+      message: 'Failed to reset password'
     });
   }
 };
@@ -338,10 +335,109 @@ const waitForTransaction = async (txHash, timeout = 60000) => {
   }
 };
 
+// Toggle User Status (Activate/Deactivate)
+const toggleUserStatus = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    // Only system admin can toggle status
+    if (req.user.role !== 'system_admin') {
+      return res.status(403).json({
+        error: 'Access Denied',
+        message: 'Only system admin can manage account status'
+      });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        error: 'User Not Found',
+        message: 'User account not found'
+      });
+    }
+
+    // Prevent system admin from deactivating themselves
+    if (user._id.toString() === req.user.id) {
+      return res.status(400).json({
+        error: 'Invalid Action',
+        message: 'You cannot deactivate your own system admin account'
+      });
+    }
+
+    user.isActive = !user.isActive;
+    user.updatedAt = Date.now();
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: `User account ${user.isActive ? 'activated' : 'deactivated'} successfully`,
+      data: {
+        userId: user._id,
+        username: user.username,
+        isActive: user.isActive
+      }
+    });
+
+  } catch (error) {
+    console.error('Toggle user status error:', error);
+    res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'Failed to update user status'
+    });
+  }
+};
+
+// Delete User Account
+const deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    // Only system admin can delete users
+    if (req.user.role !== 'system_admin') {
+      return res.status(403).json({
+        error: 'Access Denied',
+        message: 'Only system admin can delete user accounts'
+      });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        error: 'User Not Found',
+        message: 'User account not found'
+      });
+    }
+
+    // Prevent system admin from deleting themselves
+    if (user._id.toString() === req.user.id) {
+      return res.status(400).json({
+        error: 'Invalid Action',
+        message: 'You cannot delete your own system admin account'
+      });
+    }
+
+    await User.findByIdAndDelete(userId);
+
+    res.status(200).json({
+      success: true,
+      message: 'User account deleted permanently'
+    });
+
+  } catch (error) {
+    console.error('Delete user error:', error);
+    res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'Failed to delete user account'
+    });
+  }
+};
+
 module.exports = {
   authorizeIssuer,
   deauthorizeIssuer,
-  resetStudentPassword,
+  toggleUserStatus,
+  deleteUser,
+  resetUserPassword,
   getAllUsers,
   getAnomalyReports,
   getDashboardStats

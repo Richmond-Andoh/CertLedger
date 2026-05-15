@@ -1,5 +1,5 @@
 const express = require('express');
-const { authorizeIssuer, deauthorizeIssuer, resetStudentPassword, getAllUsers, getAnomalyReports, getDashboardStats } = require('../controllers/adminController');
+const { authorizeIssuer, deauthorizeIssuer, toggleUserStatus, deleteUser, resetUserPassword, getAllUsers, getAnomalyReports, getDashboardStats } = require('../controllers/adminController');
 const { authenticateToken, requireSystemAdmin } = require('../middleware/auth');
 const { validateRequest } = require('../middleware/validation');
 const { validateIssuerAuthorization } = require('../middleware/validation');
@@ -21,11 +21,11 @@ router.post('/deauthorize-issuer',
   deauthorizeIssuer
 );
 
-// Reset Student Password
-router.post('/reset-student-password',
+// Reset User Password
+router.post('/reset-password',
   authenticateToken,
   requireSystemAdmin,
-  resetStudentPassword
+  resetUserPassword
 );
 
 // Get All Users
@@ -40,6 +40,20 @@ router.get('/anomalies',
   authenticateToken,
   requireSystemAdmin,
   getAnomalyReports
+);
+
+// Toggle User Status
+router.patch('/toggle-status/:userId',
+  authenticateToken,
+  requireSystemAdmin,
+  toggleUserStatus
+);
+
+// Delete User
+router.delete('/user/:userId',
+  authenticateToken,
+  requireSystemAdmin,
+  deleteUser
 );
 
 // Get Dashboard Stats

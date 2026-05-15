@@ -23,12 +23,44 @@ const StudentAccounts = () => {
     fetchStudents();
   }, []);
 
-  const handleResetPassword = async (studentId) => {
+  const handleToggleStatus = async (userId, currentStatus) => {
     try {
-      // In a real app, this would prompt for a new password or generate one
-      const response = await adminService.resetStudentPassword({ studentId });
+      const response = await adminService.toggleUserStatus(userId);
       if (response.data.success) {
-        toast.success('Blockchain session terminated. Temporary key provisioned.');
+        toast.success(response.data.message);
+        setStudents(students.map(student => 
+          student._id === userId ? { ...student, isActive: !currentStatus } : student
+        ));
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to update student status.');
+    }
+  };
+
+  const handleDelete = async (userId) => {
+    if (!window.confirm('CRITICAL ACTION: This will permanently delete the student account. This cannot be undone. Continue?')) {
+      return;
+    }
+
+    try {
+      const response = await adminService.deleteUser(userId);
+      if (response.data.success) {
+        toast.success('Student account deleted permanently.');
+        setStudents(students.filter(student => student._id !== userId));
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to delete student account.');
+    }
+  };
+
+  const handleResetPassword = async (userId) => {
+    try {
+      const response = await adminService.resetPassword({ userId });
+      if (response.data.success) {
+        toast.success(`Security reset complete. Temporary password: ${response.data.data.temporaryPassword}`, {
+          duration: 10000,
+          position: 'top-center',
+        });
       }
     } catch (error) {
       toast.error('Security Protocol Violation: Unauthorized reset attempt.');
@@ -128,6 +160,7 @@ const StudentAccounts = () => {
                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Node ID</th>
                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Institution</th>
                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Registry Date</th>
+                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Status</th>
                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-right">Security Protocol</th>
               </tr>
             </thead>
@@ -147,13 +180,43 @@ const StudentAccounts = () => {
                   <td className="px-8 py-6 text-sm text-on-surface-variant font-medium">
                     {new Date(student.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                   </td>
+                  <td className="px-8 py-6">
+                    {student.isActive ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase border border-emerald-100 shadow-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Active
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-[10px] font-black uppercase border border-rose-100 shadow-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                        Inactive
+                      </span>
+                    )}
+                  </td>
                   <td className="px-8 py-6 text-right">
-                    <button 
-                      className="px-6 py-2.5 border-2 border-slate-900 text-slate-900 text-[10px] font-black uppercase tracking-[0.15em] rounded-lg hover:bg-slate-900 hover:text-white transition-all shadow-md active:scale-95"
-                      onClick={() => handleResetPassword(student._id)}
-                    >
-                      Reset Credentials
-                    </button>
+                    <div className="flex justify-end gap-2">
+                      <button 
+                        className="p-2 text-slate-900 hover:text-primary transition-colors tooltip"
+                        onClick={() => handleResetPassword(student._id)}
+                        title="Reset Credentials"
+                      >
+                        <span className="material-symbols-outlined text-xl">lock_reset</span>
+                      </button>
+                      <button 
+                        className={`p-2 transition-colors ${student.isActive ? 'text-amber-600 hover:text-amber-700' : 'text-emerald-600 hover:text-emerald-700'}`}
+                        onClick={() => handleToggleStatus(student._id, student.isActive)}
+                        title={student.isActive ? 'Deactivate Account' : 'Activate Account'}
+                      >
+                        <span className="material-symbols-outlined text-xl">{student.isActive ? 'person_off' : 'person_check'}</span>
+                      </button>
+                      <button 
+                        className="p-2 text-error hover:text-rose-700 transition-colors"
+                        onClick={() => handleDelete(student._id)}
+                        title="Delete Account"
+                      >
+                        <span className="material-symbols-outlined text-xl">delete</span>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

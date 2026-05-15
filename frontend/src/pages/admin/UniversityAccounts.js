@@ -24,9 +24,48 @@ const UniversityAccounts = () => {
     fetchUniversities();
   }, []);
 
-  const handleDeactivate = async (userId) => {
-    // Logic for deactivation would go here, calling deauthorizeIssuer
-    toast.error('Protocol Change Required: Authorization modification must be signed by system admin node.');
+  const handleToggleStatus = async (userId, currentStatus) => {
+    try {
+      const response = await adminService.toggleUserStatus(userId);
+      if (response.data.success) {
+        toast.success(response.data.message);
+        setUniversities(universities.map(uni => 
+          uni._id === userId ? { ...uni, isActive: !currentStatus } : uni
+        ));
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to update protocol status.');
+    }
+  };
+
+  const handleDelete = async (userId) => {
+    if (!window.confirm('CRITICAL ACTION: This will permanently purge the university node from the database. This cannot be undone. Continue?')) {
+      return;
+    }
+
+    try {
+      const response = await adminService.deleteUser(userId);
+      if (response.data.success) {
+        toast.success('University node purged successfully.');
+        setUniversities(universities.filter(uni => uni._id !== userId));
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to purge university node.');
+    }
+  };
+
+  const handleResetPassword = async (userId) => {
+    try {
+      const response = await adminService.resetPassword({ userId });
+      if (response.data.success) {
+        toast.success(`Security reset complete. Temporary password: ${response.data.data.temporaryPassword}`, {
+          duration: 10000,
+          position: 'top-center',
+        });
+      }
+    } catch (error) {
+      toast.error('Failed to reset university admin password.');
+    }
   };
 
   if (loading) {
@@ -123,19 +162,41 @@ const UniversityAccounts = () => {
                   <td className="px-8 py-6 text-sm text-on-surface-variant font-medium font-mono">{uni.username}</td>
                   <td className="px-8 py-6 text-sm text-on-surface-variant">{new Date(uni.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                   <td className="px-8 py-6">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase border border-emerald-100 shadow-sm">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                      Active
-                    </span>
+                    {uni.isActive ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase border border-emerald-100 shadow-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Active
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-[10px] font-black uppercase border border-rose-100 shadow-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                        Inactive
+                      </span>
+                    )}
                   </td>
                   <td className="px-8 py-6 text-right">
                     <div className="flex justify-end gap-3">
-                      <button className="px-4 py-2 text-[10px] font-black uppercase tracking-widest border border-slate-900 text-slate-900 rounded-lg hover:bg-slate-900 hover:text-white transition-all">View Node</button>
+                      <button 
+                        className="px-4 py-2 text-[10px] font-black uppercase tracking-widest border border-slate-900 text-slate-900 rounded-lg hover:bg-slate-900 hover:text-white transition-all shadow-lg"
+                        onClick={() => handleResetPassword(uni._id)}
+                      >
+                        Reset Password
+                      </button>
+                      <button 
+                        className={`px-4 py-2 text-[10px] font-black uppercase tracking-widest border rounded-lg transition-all shadow-lg ${
+                          uni.isActive 
+                            ? 'border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white shadow-amber-600/10' 
+                            : 'border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white shadow-emerald-600/10'
+                        }`}
+                        onClick={() => handleToggleStatus(uni._id, uni.isActive)}
+                      >
+                        {uni.isActive ? 'Deactivate' : 'Activate'}
+                      </button>
                       <button 
                         className="px-4 py-2 text-[10px] font-black uppercase tracking-widest border border-error text-error rounded-lg hover:bg-error hover:text-white transition-all shadow-lg shadow-error/10"
-                        onClick={() => handleDeactivate(uni._id)}
+                        onClick={() => handleDelete(uni._id)}
                       >
-                        Deactivate
+                        Delete
                       </button>
                     </div>
                   </td>

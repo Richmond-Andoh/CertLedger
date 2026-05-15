@@ -15,7 +15,7 @@ const Sidebar = ({ role }) => {
   const menuItems = {
     system_admin: [
       { name: 'Dashboard', icon: 'dashboard', path: '/admin' },
-      { name: 'University Accounts', icon: 'account_balance', path: '/register' }, // Maps to register for now
+      { name: 'University Accounts', icon: 'account_balance', path: '/admin/universities' },
       { name: 'Student Accounts', icon: 'school', path: '/admin/students' },
       { name: 'Anomaly Dashboard', icon: 'warning', path: '/admin/anomalies' },
       { name: 'Audit Log', icon: 'gavel', path: '/admin/audit' },
