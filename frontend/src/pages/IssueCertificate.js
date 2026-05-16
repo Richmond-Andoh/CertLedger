@@ -12,6 +12,7 @@ const IssueCertificate = () => {
     issueDate: '',
   });
   const [loading, setLoading] = useState(false);
+  const [successData, setSuccessData] = useState(null);
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
 
@@ -24,13 +25,17 @@ const IssueCertificate = () => {
     setLoading(true);
 
     try {
-      const response = await certificateService.issue(formData);
+      const payload = {
+        ...formData,
+        institution: user?.institution || 'Global Academic Ledger'
+      };
+      const response = await certificateService.issue(payload);
       if (response.data.success) {
         toast.success('Certificate anchored to blockchain successfully!', {
           duration: 5000,
           icon: '🛡️',
         });
-        navigate('/dashboard');
+        setSuccessData(response.data.data);
       }
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to issue certificate. Protocol error.');
@@ -58,8 +63,61 @@ const IssueCertificate = () => {
         </div>
       </div>
 
-      {/* Form Card */}
-      <div className="bg-surface-container-lowest rounded-2xl shadow-2xl shadow-black/5 border border-outline-variant/10 overflow-hidden">
+      {/* Form Card or Success UI */}
+      {successData ? (
+        <div className="bg-surface-container-lowest rounded-2xl shadow-2xl shadow-black/5 border border-outline-variant/10 overflow-hidden p-12">
+          <div className="flex flex-col items-center text-center space-y-8">
+            <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center">
+              <span className="material-symbols-outlined text-green-600 text-5xl" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+            </div>
+            <div className="space-y-3">
+              <h2 className="text-3xl font-black text-on-surface uppercase tracking-tight">Issuance Successful</h2>
+              <p className="text-on-surface-variant font-medium max-w-lg mx-auto">
+                The certificate has been permanently anchored to the Sepolia blockchain. A student portal account has been automatically provisioned.
+              </p>
+            </div>
+            
+            <div className="w-full bg-slate-50 p-8 rounded-xl border border-slate-200 text-left space-y-6">
+              <div>
+                <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Transaction Hash</label>
+                <p className="font-mono text-sm text-slate-800 break-all bg-white p-3 rounded-lg border border-slate-100 mt-2">{successData.transactionHash}</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Student Username</label>
+                  <p className="font-mono text-sm text-slate-800 font-bold bg-white p-3 rounded-lg border border-slate-100 mt-2">{successData.studentCredentials.username}</p>
+                </div>
+                <div>
+                  <label className="text-[10px] font-black text-amber-600 uppercase tracking-[0.2em]">Temporary Password</label>
+                  <p className="font-mono text-sm text-amber-700 font-bold bg-amber-50 p-3 rounded-lg border border-amber-100 mt-2">{successData.studentCredentials.temporaryPassword}</p>
+                </div>
+              </div>
+              <p className="text-xs text-amber-600 font-medium italic mt-2">
+                ⚠️ Important: Securely share these credentials with the student. They will be forced to change this password on first login.
+              </p>
+            </div>
+
+            <div className="flex gap-4 w-full pt-6">
+              <button
+                onClick={() => {
+                  setSuccessData(null);
+                  setFormData({ studentName: '', studentId: '', qualification: '', grade: '', issueDate: '' });
+                }}
+                className="w-full px-8 py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] text-slate-500 border-2 border-slate-200 hover:border-slate-400 hover:text-slate-700 transition-all active:scale-95 bg-white"
+              >
+                Issue Another
+              </button>
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="w-full bg-slate-900 text-amber-500 px-8 py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] transition-all active:scale-95"
+              >
+                Return to Dashboard
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="bg-surface-container-lowest rounded-2xl shadow-2xl shadow-black/5 border border-outline-variant/10 overflow-hidden">
         <form onSubmit={handleSubmit}>
           <div className="p-12 space-y-10">
             {/* Section: Student Information */}
@@ -189,6 +247,7 @@ const IssueCertificate = () => {
           </div>
         </form>
       </div>
+      )}
 
       {/* Trust Badges */}
       <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-12 opacity-80">

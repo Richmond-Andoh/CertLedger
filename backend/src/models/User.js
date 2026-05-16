@@ -41,6 +41,14 @@ const userSchema = new mongoose.Schema({
     trim: true,
     maxlength: 100
   },
+  tempPassword: {
+    type: String,
+    trim: true
+  },
+  transactionHash: {
+    type: String,
+    trim: true
+  },
   isActive: {
     type: Boolean,
     default: true
@@ -129,12 +137,13 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
 };
 
 userSchema.methods.isLocked = function() {
-  return !!(this.lockUntil && this.lockUntil > Date.now());
+  // Account locking disabled for now
+  return false;
 };
 
 userSchema.methods.incrementLoginAttempts = function() {
   this.loginAttempts += 1;
-  this.lockUntil = new Date(Date.now() + 2 * 60 * 60 * 1000); // Lock for 2 hours
+  // Locking logic removed for now
   return this.save();
 };
 

@@ -2,7 +2,7 @@ const { ethers } = require('ethers');
 
 // Blockchain configuration
 const contractConfig = {
-  address: process.env.CONTRACT_ADDRESS || '0xd9145CCE52D386f254917e481eB44e9943F39138',
+  address: process.env.CONTRACT_ADDRESS || '0x215dCa1d96B46de59c7cCF2BF1dAe38faE5bC9C9',
   abi: [
     {
       "inputs": [
@@ -88,8 +88,8 @@ let contract;
 
 const initializeBlockchain = () => {
   try {
-    // Use Infura provider for Sepolia testnet
-    const rpcUrl = process.env.SEPOLIA_URL || 'https://sepolia.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161';
+    // Use RPC provider for Sepolia testnet
+    const rpcUrl = process.env.SEPOLIA_URL || 'https://sepolia.drpc.org';
     provider = new ethers.providers.JsonRpcProvider(rpcUrl);
     
     // Create contract instance
@@ -135,7 +135,7 @@ const createWallet = (privateKey) => {
 // Wait for transaction confirmation
 const waitForTransaction = async (txHash, timeout = 60000) => {
   try {
-    const receipt = await provider.waitForTransaction(txHash, timeout);
+    const receipt = await provider.waitForTransaction(txHash, 1, timeout);
     return receipt;
   } catch (error) {
     console.error('❌ Transaction confirmation error:', error.message);

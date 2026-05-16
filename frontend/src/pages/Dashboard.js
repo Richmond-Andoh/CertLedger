@@ -153,7 +153,7 @@ const Dashboard = () => {
                     </td>
                     <td className="px-10 py-6 text-right">
                        <code className="text-[10px] font-black text-on-surface-variant bg-slate-100 px-3 py-1.5 rounded-lg border border-outline-variant/20 hover:text-secondary hover:border-secondary transition-all">
-                        {cert.blockchainHash?.substring(0, 12)}...
+                        {cert.transactionHash?.substring(0, 12)}...
                        </code>
                     </td>
                   </tr>

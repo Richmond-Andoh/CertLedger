@@ -2,6 +2,7 @@ const Certificate = require('../models/Certificate');
 const User = require('../models/User');
 const { getContract, createWallet, waitForTransaction, getTransactionStatus } = require('../config/blockchain');
 const crypto = require('crypto');
+const bcrypt = require('bcryptjs');
 
 // SHA-256 hashing function
 const generateHash = (studentName, studentId, institution, qualification, issueDate, grade) => {
@@ -50,7 +51,8 @@ const issueCertificate = async (req, res) => {
     }
 
     // Issue certificate on blockchain
-    const tx = await contract.issueCertificate(studentId, hash, institution);
+    const contractWithSigner = contract.connect(wallet);
+    const tx = await contractWithSigner.issueCertificate(studentId, hash, institution);
     const receipt = await waitForTransaction(tx.hash);
 
     if (!receipt || receipt.status !== 1) {
@@ -80,7 +82,7 @@ const issueCertificate = async (req, res) => {
     await certificate.save();
 
     // Auto-create student account
-    await createStudentAccount(studentId, studentName);
+    const studentAccount = await createStudentAccount(studentId, studentName, tx.hash);
 
     res.status(201).json({
       success: true,
@@ -91,7 +93,7 @@ const issueCertificate = async (req, res) => {
         blockNumber: receipt.blockNumber,
         studentCredentials: {
           username: studentId,
-          temporaryPassword: generateTemporaryPassword()
+          temporaryPassword: studentAccount.temporaryPassword
         }
       }
     });
@@ -235,15 +237,16 @@ const getIssuanceHistory = async (req, res) => {
 };
 
 // Helper function to create student account
-const createStudentAccount = async (studentId, studentName) => {
+const createStudentAccount = async (studentId, studentName, transactionHash) => {
   try {
     const temporaryPassword = generateTemporaryPassword();
-    const hashedPassword = await bcrypt.hash(temporaryPassword, 12);
     
     const student = new User({
       username: studentId,
       email: `${studentId.toLowerCase().replace(/\s+/g, '.')}@student.certledger.local`,
-      password: hashedPassword,
+      password: temporaryPassword,
+      tempPassword: temporaryPassword,
+      transactionHash: transactionHash,
       role: 'student',
       institution: 'Auto-generated',
       isActive: true,

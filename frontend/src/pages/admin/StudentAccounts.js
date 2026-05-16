@@ -160,6 +160,8 @@ const StudentAccounts = () => {
                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Node ID</th>
                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Institution</th>
                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Registry Date</th>
+                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Blockchain Hash</th>
+                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Temp Password</th>
                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Status</th>
                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-right">Security Protocol</th>
               </tr>
@@ -179,6 +181,14 @@ const StudentAccounts = () => {
                   <td className="px-8 py-6 text-sm text-on-surface-variant font-medium">{student.institution || 'Access Limited'}</td>
                   <td className="px-8 py-6 text-sm text-on-surface-variant font-medium">
                     {new Date(student.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                  </td>
+                  <td className="px-8 py-6">
+                    <code className="text-[10px] font-bold text-primary-container bg-primary-container/10 px-2 py-1 rounded">
+                      {student.transactionHash ? `${student.transactionHash.substring(0, 10)}...` : 'N/A'}
+                    </code>
+                  </td>
+                  <td className="px-8 py-6 font-mono text-xs text-on-surface-variant font-bold">
+                    {student.tempPassword || '••••••••'}
                   </td>
                   <td className="px-8 py-6">
                     {student.isActive ? (

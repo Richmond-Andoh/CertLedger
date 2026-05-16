@@ -20,18 +20,18 @@ router.post('/verify',
   verifyCertificate
 );
 
-// Get Certificate Details (Student only)
-router.get('/:certificateId',
-  authenticateToken,
-  requireStudent,
-  getCertificateDetails
-);
-
 // Get Issuance History (University Admin only)
 router.get('/history',
   authenticateToken,
   requireUniversityAdmin,
   getIssuanceHistory
+);
+
+// Get Certificate Details (Student only)
+router.get('/:certificateId',
+  authenticateToken,
+  requireStudent,
+  getCertificateDetails
 );
 
 module.exports = router;

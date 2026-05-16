@@ -47,11 +47,20 @@ const authorizeIssuer = async (req, res) => {
       });
     }
 
+    // Generate temporary password
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let tempPassword = '';
+    for (let i = 0; i < 12; i++) {
+      tempPassword += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
     // Create user record
     const user = new User({
       username: `admin_${Date.now()}`,
       email: `${issuerAddress}@admin.certledger.local`,
-      password: 'tempPassword123', // Will be hashed by pre-save middleware
+      password: tempPassword,
+      tempPassword: tempPassword,
+      transactionHash: tx.hash,
       role: 'university_admin',
       institution,
       isActive: true,
@@ -179,6 +188,7 @@ const resetUserPassword = async (req, res) => {
 
     // Update password
     user.password = newPassword; // Will be hashed by pre-save middleware
+    user.tempPassword = newPassword;
     await user.save();
 
     res.status(200).json({
@@ -327,7 +337,7 @@ const waitForTransaction = async (txHash, timeout = 60000) => {
   try {
     const { getProvider } = require('../config/blockchain');
     const provider = getProvider();
-    const receipt = await provider.waitForTransaction(txHash, timeout);
+    const receipt = await provider.waitForTransaction(txHash, 1, timeout);
     return receipt;
   } catch (error) {
     console.error('Transaction confirmation error:', error.message);

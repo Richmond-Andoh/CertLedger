@@ -141,6 +141,8 @@ const UniversityAccounts = () => {
                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">University Node</th>
                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Admin Identity</th>
                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Provisioned</th>
+                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Blockchain Hash</th>
+                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Temp Password</th>
                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Status</th>
                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-on-surface-variant text-right">Actions</th>
               </tr>
@@ -161,6 +163,14 @@ const UniversityAccounts = () => {
                   </td>
                   <td className="px-8 py-6 text-sm text-on-surface-variant font-medium font-mono">{uni.username}</td>
                   <td className="px-8 py-6 text-sm text-on-surface-variant">{new Date(uni.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
+                  <td className="px-8 py-6">
+                    <code className="text-[10px] font-bold text-primary-container bg-primary-container/10 px-2 py-1 rounded">
+                      {uni.transactionHash ? `${uni.transactionHash.substring(0, 10)}...` : 'N/A'}
+                    </code>
+                  </td>
+                  <td className="px-8 py-6 font-mono text-xs text-on-surface-variant font-bold">
+                    {uni.tempPassword || '••••••••'}
+                  </td>
                   <td className="px-8 py-6">
                     {uni.isActive ? (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase border border-emerald-100 shadow-sm">
