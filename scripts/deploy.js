@@ -5,18 +5,18 @@ async function main() {
   console.log("Starting deployment of CertificateVerification contract...");
   
   // Get contract factory
-  const CertificateVerification = await ethers.getContractFactory("CertificateVerification");
+  const CertificateVerification = await ethers.getContractFactory("contracts/CertificateVerification.sol:CertificateVerification");
   
   // Deploy contract
   console.log("Deploying CertificateVerification contract...");
   const certificateVerification = await CertificateVerification.deploy();
   
   // Wait for deployment to complete
-  await certificateVerification.deployed();
+  await certificateVerification.waitForDeployment();
   
   console.log("✅ CertificateVerification contract deployed successfully!");
-  console.log("Contract address:", certificateVerification.address);
-  console.log("Transaction hash:", certificateVerification.deployTransaction.hash);
+  console.log("Contract address:", certificateVerification.target);
+  console.log("Transaction hash:", certificateVerification.deploymentTransaction().hash);
   
   // Get network information
   const network = await ethers.provider.getNetwork();
@@ -25,8 +25,8 @@ async function main() {
   
   // Save deployment info
   const deploymentInfo = {
-    contractAddress: certificateVerification.address,
-    transactionHash: certificateVerification.deployTransaction.hash,
+    contractAddress: certificateVerification.target,
+    transactionHash: certificateVerification.deploymentTransaction().hash,
     network: network.name,
     chainId: network.chainId.toString(),
     deployTime: new Date().toISOString()
@@ -44,7 +44,7 @@ async function main() {
   if (network.name !== "hardhat") {
     console.log("\n📝 Next steps:");
     console.log("1. Verify contract on Etherscan:");
-    console.log(`   npx hardhat verify --network ${network.name} ${certificateVerification.address}`);
+    console.log(`   npx hardhat verify --network ${network.name} ${certificateVerification.target}`);
     console.log("2. Authorize university admins using authorizeIssuer() function");
     console.log("3. Update your backend with the contract address");
   }
